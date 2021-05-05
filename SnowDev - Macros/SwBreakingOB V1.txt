@@ -1,0 +1,117 @@
+$${
+//MACRO: SwBreakingOB V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://Macro.Snowdev.com.br/
+
+
+if(swbreakingob);
+    log("");
+    log("");
+    log("&6[Macro] &fSwBreakingOB &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+    unset(swbreakingob);
+    stop();
+else;
+    set(swbreakingob);
+	
+    PROMPT(&swrep,$$?,"Deseja Reparar a Picareta? S/N");
+	
+	if(%&swrep%="")
+		log("");
+		log("&6[Macro] &fVocê não Informou se Deseja Reparar a Picareta");
+		log("");
+		unset(swbreakingob);
+		stop();
+	endif;
+	
+	if((%&swrep% == "S")||(%&swrep% == "s")||(%&swrep% == "SIM")||(%&swrep% == "Sim")||(%&swrep% == "sim"));
+		&rep = "ON";
+	else;
+		&rep = "OFF";
+	endif;
+		
+    log("");
+    log("");
+    log("&6[Macro] &fSwBreakingOB sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	
+    &swdir = %DIRECTION%;
+    ifmatches(%&swdir%,N);&swdir=NORTH;endif;
+    ifmatches(%&swdir%,S);&swdir=SOUTH;endif;
+    ifmatches(%&swdir%,E);&swdir=EAST;endif;
+    ifmatches(%&swdir%,W);&swdir=WEST;endif;
+	
+    DO;
+		pick(278);
+		
+		look(%&swdir%);
+		look(,65);
+		
+		wait(40ms);
+		
+		if(%DURABILITY%<60);
+			if(%&rep%="ON");
+				do;
+					look(,90);
+					pick(278);
+					
+					wait(40ms);
+					
+					key(use);
+					wait(40ms);
+				until(%DURABILITY%>70);
+				
+				if(%DURABILITY%<15);
+					log("");
+					log("");
+					log("&6[Macro] &fO &6Macro &c&lNAO &fconseguiu reparar sua picareta, portanto o macro sera &c&lDESLIGADO&f!");
+					log("&6[Macro] &fSwBreakingOB &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+					log("&6[Macro] &fPara mais macros como esse acesse o site:");
+					log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+					log("");
+					log("");
+					unset(swbreakingob);
+					stop();
+				endif;
+			else;
+				log("");
+				log("");
+				log("&6[Macro] &fSua picarreta está quebrando!");
+				log("&6[Macro] &fSwBreakingOB &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+				log("&6[Macro] &fPara mais macros como esse acesse o site:");
+				log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+				log("");
+				log("");
+				unset(swbreakingob);
+				stop();
+			endif;
+		endif;
+		
+		if((%HITID%=49)||(%HITID%=4));
+			do;
+			pick(278);
+			key(attack);
+			wait(0);
+			until((%HITID% != 49) && (%HITID% != 4));
+			pick(331);
+			wait(60ms);
+			key(use);
+			wait(1700ms);
+		else;
+			look(%&swdir%);
+			look(,65);
+			wait(20ms);
+			pick(331);
+			wait(50ms);
+			key(use);
+			wait(1700ms);
+		endif;
+    LOOP;
+endif;
+}$$

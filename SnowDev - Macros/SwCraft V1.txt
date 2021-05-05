@@ -1,0 +1,31 @@
+$${
+//MACRO: SwCraft V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://forum.snowdev.com.br
+
+
+if(swcraft);
+    log("");
+    log("");
+    log("&6[Macro] &fSwCraft &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://forum.snowdev.com.br);
+    log("");
+    log("");
+	
+	unset(swcraft);
+	stop();
+else;
+	set(swcraft);
+	
+    log("");
+    log("");
+    log("&6[Macro] &fSwCraft sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	
+	gui(craft)
+endif;
+}$$

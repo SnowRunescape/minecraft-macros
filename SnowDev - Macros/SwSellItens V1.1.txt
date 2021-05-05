@@ -1,0 +1,538 @@
+$${
+//MACRO: SwSellItens V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//http://macro.snowdev.com.br/
+
+//O servidor onde esta utilizando este macro tem DELAY de 3 SEGUNDOS para teleportar?
+//Defina com SIM ou NAO!
+&swdefinedelay = "SIM";
+
+
+if(swsellitem);
+    log("");
+    log("");
+    log("&6[Macro] &fSwSellItens &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	
+	keyup(forward);
+	keyup(jump);
+	
+	unset(swsellitem);
+	stop();
+else;
+	set(swsellitem);
+	
+	if(%#swconstructsellitem% == 0);
+		&swlojacmd  = "";
+		&swdirplace = "";
+		
+		#swoossxstarter = 0;
+		#swoossystarter = 0;
+		#swposszstarter = 0;
+	
+		#swpossx1 = 0;
+		#swpossy1 = 0;
+		#swpossz1 = 0;
+		
+		#swpossx2 = 0;
+		#swpossy2 = 0;
+		#swpossz2 = 0;
+		
+		#swpossx3 = 0;
+		#swpossy3 = 0;
+		#swpossz3 = 0;
+		
+		#swpossx4 = 0;
+		#swpossy4 = 0;
+		#swpossz4 = 0;
+		
+		#swlookplacex = -999;
+		#swlookplacey = -999;
+		
+		inc(#swconstructsellitem);
+	endif;
+	
+	if((%&swdefinedelay% == "Sim") || (%&swdefinedelay% == "sim") || (%&swdefinedelay% == "SIM"));
+		#swsellitensdelay1 = 4000;
+	else;
+		#swsellitensdelay1 = 2500;
+	endif;
+	
+	PROMPT(#swcmd1,$$?,"1: Iniciar Macro | 2: Marcar Possicao | 3: Local de Venda | 4: Zerar Macro");
+	
+	if(%#swcmd1% == 1);
+		if((%#swpossx1% == 0) && (%#swpossy1% == 0) && (%#swpossz1% == 0));
+			log("");
+			log("");
+			log("&6[SwSellItens] &fVocê &cNAO &fdefiniu o &aLOCAL 1&f!");
+			log("");
+			log("");
+			unset(swsellitem);
+			stop();
+		elseif(%&swlojacmd% == "");
+			log("");
+			log("");
+			log("&6[SwSellItens] &fVocê &cNAO &fdefiniu o &aCOMANDO &fda &6LOJA&f!");
+			log("");
+			log("");
+			unset(swsellitem);
+			stop();
+		elseif((%#swlookplacex% == -999) || (%#swlookplacey% == -999));
+			log("");
+			log("");
+			log("&6[SwSellItens] &fVocê &cNAO &fdefiniu a &aDIRECAO &fda &6PLACA&f!");
+			log("");
+			log("");
+			unset(swsellitem);
+			stop();
+		endif;
+		
+		PROMPT(#swcmd3,$$?,"Escolha o Metodo: 1: Pegar do Bau | 2: Pegar do Chao");
+		
+		if((%#swcmd3% == 1) || (%#swcmd3% == 2));
+			PROMPT(&swcmd4,$$?,"Digite o Nome da Home:");
+			
+			if(%&swcmd4% == "");
+				log("");
+				log("");
+				log("&6[SwSellItens] &fVocê &cNAO &finseriu o nome da &aHOME&f!");
+				log("");
+				log("");
+				unset(swsellitem);
+				stop();
+			else;
+				if(%#swcmd3% == 1);
+					PROMPT(#swcmd2,$$i,"Informe o ID do item!");
+					
+					if((%#swcmd2% == 0) || (%#swcmd2% < 0));
+						log("");
+						log("");
+						log("&6[SwSellItens] &fVocê &cNAO &finformou o &6&lID&f, ou o &6&lID &finformado é &cINVAIDO&f!");
+						log("");
+						log("");
+						unset(swsellitem);
+						stop();
+					else;
+						PROMPT(#swcmd5,$$?,"Quantos bau sera utilizado?");
+						
+						if((%#swcmd5% == 0) || (%#swcmd5% < 0));
+							log("");
+							log("");
+							log("&6[SwSellItens] &fVocê &cNAO &fescolheu quantos &aBAU &fira utilizar, ou o numero informado e &cINVAIDO&f!");
+							log("");
+							log("");
+							unset(swsellitem);
+							stop();
+						else;
+							PROMPT(#swcmd7,$$?,"Em Qual Bau Comecar?");
+							
+							if((%#swcmd7% == 0) || (%#swcmd7% < 0));
+								log("");
+								log("");
+								log("&6[SwSellItens] &fVocê &cNAO &fescolheu em qual &aBAU &fcomecar, ou o numero informado e &cINVAIDO&f!");
+								log("");
+								log("");
+								unset(swsellitem);
+								stop();
+							elseif(%#swcmd7% > %#swcmd5%);
+								log("");
+								log("");
+								log("&6[SwSellItens] &cNAO &fe possivel comecar no &aBAU &finformado!");
+								log("");
+								log("");
+								unset(swsellitem);
+								stop();
+							endif;
+						endif;
+					endif;
+				endif;
+			endif;
+		else;
+			log("");
+			log("");
+			log("&6[SwSellItens] &fVocê &cNAO &fescolheu o metodo para pegar os &aITENS&f!");
+			log("");
+			log("");
+			unset(swsellitem);
+			stop();
+		endif;
+	elseif(%#swcmd1% == 2);
+		PROMPT(&swcmd3,$$?,"Deseja marcar Qual Local? Loc1, Loc2, Loc3, Loc4 ou Placa ?");
+		
+		if((%&swcmd3% == "Loc1") || (%&swcmd3% == "loc1") || (%&swcmd3% == "LOC1") || (%&swcmd3% == "1"));
+			#swpossx1 = %XPOS%;
+			#swpossy1 = %YPOS%;
+			#swpossz1 = %ZPOS%;
+			
+			log("");
+			log("");
+			log("&6[SwSellItens] &fSua Posicao foi salva no &aLOCAL 1&f!");
+			log("");
+			log("");
+			unset(swsellitem);
+			stop();
+		elseif((%&swcmd3% == "Loc2") || (%&swcmd3% == "loc2") || (%&swcmd3% == "LOC2") || (%&swcmd3% == "2"));
+			#swpossx2 = %XPOS%;
+			#swpossy2 = %YPOS%;
+			#swpossz2 = %ZPOS%;
+			
+			log("");
+			log("");
+			log("&6[SwSellItens] &fSua Posicao foi salva no &aLOCAL 2&f!");
+			log("");
+			log("");
+			unset(swsellitem);
+			stop();
+		elseif((%&swcmd3% == "Loc3") || (%&swcmd3% == "loc3") || (%&swcmd3% == "LOC3") || (%&swcmd3% == "3"));
+			#swpossx3 = %XPOS%;
+			#swpossy3 = %YPOS%;
+			#swpossz3 = %ZPOS%;
+		
+			log("");
+			log("");
+			log("&6[SwSellItens] &fSua Posicao foi salva no &aLOCAL 3&f!");
+			log("");
+			log("");
+			unset(swsellitem);
+			stop();
+		elseif((%&swcmd3% == "Loc4") || (%&swcmd3% == "loc4") || (%&swcmd3% == "LOC4") || (%&swcmd3% == "4"));
+			#swpossx4 = %XPOS%;
+			#swpossy4 = %YPOS%;
+			#swpossz4 = %ZPOS%;
+		
+			log("");
+			log("");
+			log("&6[SwSellItens] &fSua Posicao foi salva no &aLOCAL 4&f!");
+			log("");
+			log("");
+			unset(swsellitem);
+			stop();
+		elseif((%&swcmd3% == "Placa") || (%&swcmd3% == "placa") || (%&swcmd3% == "PLACA") || (%&swcmd3% == "place") || (%&swcmd3% == "Place") || (%&swcmd3% == "PLACE"));
+			#swlookplacex = %YAW% + 180;
+			#swlookplacey = %PITCH%;
+			
+			&dir = %DIRECTION%;
+			
+			ifmatches(%&dir%,N);&swdirplace=NORTH;endif;
+			ifmatches(%&dir%,S);&swdirplace=SOUTH;endif;
+			ifmatches(%&dir%,E);&swdirplace=EAST;endif;
+			ifmatches(%&dir%,W);&swdirplace=WEST;endif;
+
+			if(%#swlookplacey% > 90);
+				#swlookplacey = %#swlookplacey%-360;
+			endif;
+		
+			log("");
+			log("");
+			log("&6[SwSellItens] &fA Posicao da &6PLACA &ffoi salva com &aSUCESSO&f!");
+			log("");
+			log("");
+			unset(swsellitem);
+			stop();
+		else;
+			log("");
+			log("");
+			log("&6[SwSellItens] &fO local que você inseriu é &cINVAIDO&f!");
+			log("");
+			log("");
+			unset(swsellitem);
+			stop();
+		endif;
+	elseif(%#swcmd1% == 3);
+		PROMPT(&swcmd6,$$?,"Comando para ir na Loja:");
+		
+		if(%&swcmd6% != "");
+			&swlojacmd = %&swcmd6%;
+			
+			log("");
+			log("");
+			log("&6[SwSellItens] &fVocê definiu o comando &a%&swlojacmd% &fpara vender seus itens!");
+			log("");
+			log("");
+			unset(swsellitem);
+			stop();
+		else;
+			log("");
+			log("");
+			log("&6[SwSellItens] &fVocê &cNAO &finseriu o &aCOMANDO &fda &6LOJA&f!");
+			log("");
+			log("");
+			unset(swsellitem);
+			stop();
+		endif;
+	elseif(%#swcmd1% == 4);
+		&swlojacmd = "";
+		&swdirplace = "";
+		
+		#swoossxstarter = 0;
+		#swoossystarter = 0;
+		#swposszstarter = 0;
+	
+		#swpossx1 = 0;
+		#swpossy1 = 0;
+		#swpossz1 = 0;
+		
+		#swpossx2 = 0;
+		#swpossy2 = 0;
+		#swpossz2 = 0;
+		
+		#swpossx3 = 0;
+		#swpossy3 = 0;
+		#swpossz3 = 0;
+		
+		#swpossx4 = 0;
+		#swpossy4 = 0;
+		#swpossz4 = 0;
+		
+		#swlookplacex = -999;
+		#swlookplacey = -999;
+		
+		log("");
+		log("");
+		log("&6[SwSellItens] &fAs configuracoes do macro foram &aredefinidas&f!");
+		log("");
+		log("");
+		unset(swsellitem);
+		stop();
+	else;
+		log("");
+		log("");
+		log("&6[Macro] &fVocê nao escolheu nenhuma opcao!");
+		log("&6[Macro] &fSwSellItens &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+		log("&6[Macro] &fPara mais macros como esse acesse o site:");
+		log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+		log("");
+		log("");
+		unset(swsellitem);
+		stop();
+	endif;
+	
+    log("");
+    log("");
+    log("&6[Macro] &fSwSellItens sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	
+	if(%#swcmd3% == 1);
+		log("&6[SwSellItens] &fVocê escolheu o METODO de &aPegar itens do bau&f!");
+	elseif(%#swcmd3% == 2);
+		log("&6[SwSellItens] &fVocê escolheu o metodo de &aPegar itens do chao&f!");
+	endif;
+	
+	wait(500ms);
+	
+	if(%#swcmd3% == 1);
+		log("&6[SwSellItens] &fIndo para sua &a/home %&swcmd4%%#swcmd7%&f...");
+	elseif(%#swcmd3% == 2);
+		log("&6[SwSellItens] &fIndo para sua &a/home %&swcmd4%&f...");
+	endif;
+	
+	wait(500ms);
+	
+	if(%#swcmd3% == 2);
+		echo(/home %&swcmd4%);
+		
+		wait(%#swsellitensdelay1%ms);
+		
+		log("&6[SwSellItens] &fFique parado, &aSalvando &fsuas coordenadas!");
+		
+		wait(3);
+		
+		#swoossxstarter = %XPOS%;
+		#swoossystarter = %YPOS%;
+		#swposszstarter = %ZPOS%;
+		
+		log("&6[SwSellItens] &fSua coordenada foi &asalva com sucesso&f!");
+		
+		wait(500ms);
+	endif;
+	
+	DO;
+		if(%#swcmd3% == 1);
+			#swpermissionnext = 0;
+			
+			do;
+				if(%#swcmd7% > %#swcmd5%);
+					log("");
+					log("&6[Macro] &fTodos os &6&lBAUS &fforam vendidos!");
+					log("&6[Macro] &fSwSellItens &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+					log("");
+					gui();
+					unset(swsellitem);
+					stop();
+				endif;
+				
+				echo(/home %&swcmd4%%#swcmd7%);
+				
+				wait(%#swsellitensdelay1%ms);
+				
+				key(use);
+				
+				wait(1500ms);
+				
+				getslotitem(53,#idinv,#stackinv);
+				
+				if(%#stackinv% != 0);
+					unsafe;
+						for(#swi,0,53);
+							getslotitem(%#swi%,#swiactualid,#swiactualstack);
+							
+							if(%#swiactualid% == %#swcmd2%);
+								slotclick(%#swi%,l,true);
+								wait(50ms);
+							endif;
+							
+							getslotitem(54,#idinv,#stackinv);
+							
+							if((%#swi% == 53) && (%#stackinv% == 0));
+								log("&6[Macro] &fIndo para o proximo &6&lBAU&f!");
+								
+								inc(#swcmd7);
+								gui();
+							elseif((%#swi% == 53) && (%#stackinv% != 0));
+								#swpermissionnext = 1;
+								
+								inc(#swcmd7);
+								gui();
+							elseif(%#stackinv% != 0);
+								#swpermissionnext = 1;
+								
+								gui();
+								break();
+							endif;
+						next;
+					endunsafe;
+				else;
+					inc(#swcmd7);
+					gui();
+				endif;
+			until(%#swpermissionnext% != 0);
+		elseif(%#swcmd3% == 2);
+			do;
+				if((%#swoossxstarter% != %XPOS%) || (%#swoossystarter% != %YPOS%) || (%#swposszstarter% != %ZPOS%));
+					echo(/home %&swcmd4%);
+					wait(%#swsellitensdelay1%ms);
+				endif;
+			until((%#swoossxstarter% == %XPOS%) && (%#swoossystarter% == %YPOS%) && (%#swposszstarter% == %ZPOS%));
+			
+			do;
+				gui(inventory);
+				wait(350ms);
+				getslotitem(35,#idinv,#stackinv);
+			until(%#stackinv% != 0);
+			
+			gui();
+		endif;
+		
+		log("");
+		log("&6[SwSellItens] &fIndo a &6&l%&swlojacmd%&f!");
+		log("");
+		echo(%&swlojacmd%);
+		
+		gui();
+		wait(%#swsellitensdelay1%ms);
+		keydown(jump);
+		wait(1);
+		keyup(jump);
+		wait(1);
+		
+		#swptosellitem = 0;
+		#swsleeptoplace = 0;
+		
+		do;
+			if(%#swsleeptoplace% == 0);
+				#swactualloccoordx = %#swpossx1%;
+				#swactualloccoordz = %#swpossz1%;
+				
+				if((%#swpossx1% == 0) && (%#swpossy1% == 0) && (%#swpossz1% == 0));
+					#swptosellitem = 1;
+				elseif((%#swpossx1% == %XPOS%) && (%#swpossy1% == %YPOS%) && (%#swpossz1% == %ZPOS%));
+					keyup(forward);
+					inc(#swsleeptoplace);
+				endif;
+			elseif(%#swsleeptoplace% == 1);
+				#swactualloccoordx = %#swpossx2%;
+				#swactualloccoordz = %#swpossz2%;
+				
+				if((%#swpossx2% == 0) && (%#swpossy2% == 0) && (%#swpossz2% == 0));
+					#swptosellitem = 1;
+					
+					keyup(forward);
+				elseif((%#swpossx2% == %XPOS%) && (%#swpossy2% == %YPOS%) && (%#swpossz2% == %ZPOS%));
+					keyup(forward);
+					inc(#swsleeptoplace);
+				endif;
+			elseif(%#swsleeptoplace% == 2);
+				#swactualloccoordx = %#swpossx3%;
+				#swactualloccoordz = %#swpossz3%;
+				
+				if((%#swpossx3% == 0) && (%#swpossy3% == 0) && (%#swpossz3% == 0));
+					#swptosellitem = 1;
+					
+					keyup(forward);
+				elseif((%#swpossx3% == %XPOS%) && (%#swpossy3% == %YPOS%) && (%#swpossz3% == %ZPOS%));
+					keyup(forward);
+					inc(#swsleeptoplace);
+				endif;
+			elseif(%#swsleeptoplace% == 3);
+				#swactualloccoordx = %#swpossx4%;
+				#swactualloccoordz = %#swpossz4%;
+				
+				if((%#swpossx4% == 0) && (%#swpossy4% == 0) && (%#swpossz4% == 0));
+					#swptosellitem = 1;
+					
+					keyup(forward);
+				elseif((%#swpossx4% == %XPOS%) && (%#swpossy4% == %YPOS%) && (%#swpossz4% == %ZPOS%));
+					keyup(forward);
+					inc(#swsleeptoplace);
+				endif;
+			elseif(%#swsleeptoplace% > 3);
+				#swptosellitem = 1;
+				
+				keyup(forward);
+			endif;
+			
+			if((%#swsleeptoplace% <= 3) && (%#swptosellitem% == 0));
+				keydown(forward);
+				unsprint;
+				
+				if((%#swactualloccoordx% == %XPOS%) && (%#swactualloccoordz% > %ZPOS%));
+					look(NORTH);look(-180,0);
+				elseif((%#swactualloccoordx% == %XPOS%) && (%#swactualloccoordz% < %ZPOS%));
+					look(NORTH);look(0,0);
+				elseif((%#swactualloccoordx% > %XPOS%) && (%#swactualloccoordz% == %ZPOS%));
+					look(NORTH);look(90,0);
+				elseif((%#swactualloccoordx% < %XPOS%) && (%#swactualloccoordz% == %ZPOS%));
+					look(NORTH);look(-90,0);
+				elseif((%#swactualloccoordx% > %XPOS%) && (%#swactualloccoordz% > %ZPOS%));
+					look(NORTH);look(135,0);
+				elseif((%#swactualloccoordx% < %XPOS%) && (%#swactualloccoordz% > %ZPOS%));
+					look(NORTH);look(-135,0);
+				elseif((%#swactualloccoordx% < %XPOS%) && (%#swactualloccoordz% < %ZPOS%));
+					look(NORTH);look(-45,0);
+				elseif((%#swactualloccoordx% > %XPOS%) && (%#swactualloccoordz% < %ZPOS%));
+					look(NORTH);look(45,0);
+				endif;
+			endif;
+		until(%#swptosellitem% == 1);
+		
+		look(%&swdirplace%);
+		look(%#swlookplacex%,%#swlookplacey%);
+		
+		wait(50ms);
+		
+		key(attack);
+		
+		wait(50ms);
+		
+		log("");
+		log("&6[SwSellItens] &fVoltando para a sua &6&lHOME&f!");
+		log("");
+	LOOP;
+endif;
+}$$

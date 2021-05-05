@@ -1,0 +1,72 @@
+$${
+//MACRO: SwKillMobTurning V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//http://Macro.Snowdev.com.br/
+
+//Defina o delay do hit abaixo ( Valor em MS )
+#swdelayhit = "1";
+
+//Deseja girar muito ou pouco? recomendado 45 a 55
+//Quanto maior o numero, mais rapido gira MAX 360 ( POREM NÃO É MUITO BOM )
+#swxmuchturning = "400";
+
+//Comando para reparar o item em suas mao ( ESPADA/MACHADO )
+&swusetofixitem = "/FIX";
+
+
+if(swkillmobgirando);
+	log("");
+	log("");
+	log("&6[Macro] &fSwKillMobTurning &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+	log("");
+	log("");
+	unset(swkillmobgirando);
+	stop();
+else;
+	set(swkillmobgirando);
+	log("");
+	log("");
+	log("&6[Macro] &fSwKillMobTurning sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+	log("");
+	log("");
+	#swlook=-180;
+	
+	wait(500ms);
+	
+	log("");
+	log("");
+	log("&6[Macro] &fSera utilizado o comando &6&l%&swusetofixitem% &fpara reparar o item em sua mao!");
+	log("");
+	log("");
+	
+	wait(500ms);
+
+	DO;
+		if(%DURABILITY% < 45);
+			log("&6[Macro] &fO Item que esta em suas maos esta quebrando !!");
+			log("&6[Macro] &fIniciando o processo de &6&lReparar&f!");
+			wait(100ms);
+			
+			do;
+				echo(%&swusetofixitem%);
+				wait(2);
+			until(%DURABILITY% > 45);
+		endif;
+		
+		look(north);
+		look(%#swlook%,20);
+		wait(2ms);
+		
+		if(%HIT% = "ENTITY");
+			key(attack);
+			wait(%#swdelayhit%ms);
+		else;
+			INC(#swlook,%#swxmuchturning%);
+		endif;
+	LOOP;
+ENDIF;
+}$$

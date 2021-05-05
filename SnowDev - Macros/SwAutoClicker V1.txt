@@ -1,0 +1,35 @@
+$${
+//MACRO: SwAutoClicker V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//http://Macro.Snowdev.com.br/
+
+//Com qual DELAY deseja bater? em MS
+#swdelayhit = 1;
+
+
+if(swautoclicker);
+    log("");
+    log("");
+    log("&6[Macro] &fSwAutoClicker &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	unset(swautoclicker);
+	stop();
+else;
+	set(swautoclicker);
+    log("");
+    log("");
+    log("&6[Macro] &fSwAutoClicker sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	
+	do;
+		key(attack);
+		wait(%#swdelayhit%ms);
+	loop;
+endif;
+}$$

@@ -1,0 +1,41 @@
+$${
+//MACRO: SwAntiQueda V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://Macro.Snowdev.com.br/
+
+//Altura max para a queda ser impedida?
+//Recomendo de 6-10
+#swantiquedamax = 10;
+
+
+if(swantiqueda); 
+	log("");
+	log("");
+	log("&6[Macro] &fSwAntiQueda &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+	log("");
+	log("");
+	unset(swantiqueda);
+	stop();
+else;
+	set(swantiqueda);
+	log(""); log("");
+	log("&6[Macro] &fSwAntiQueda sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:"); log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+	log("");
+	log("");
+	
+	do;
+		#a = %YPOS%;
+		wait(500ms);
+		
+		if(%YPOS% < (%#a% - %#swantiquedamax%));
+			log("&6[Macro] &fVocê está caindo rapido demais!");
+			log("&6[Macro] &fTeleportando Você para o &6/spawn");
+			log("&6[Macro] &fVocê está caindo nas cordenada X: &6%XPOS% &fY: &6%YPOS% &fZ: &6%ZPOS%");
+			echo(/spawn);
+		endif;
+	loop; 
+endif;
+}$$

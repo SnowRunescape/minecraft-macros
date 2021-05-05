@@ -1,0 +1,33 @@
+$${
+//MACRO: SwAutoDefender V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://macro.snowdev.com.br/
+
+
+if(swautodefender);
+    log("");
+    log("");
+    log("&6[Macro] &fSwAutoDefender &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://macro.snowdev.com.br");
+    log("");
+    log("");
+	unset(swautodefender);
+	stop();
+else;
+    log("");
+    log("");
+    log("&6[Macro] &fSwAutoDefender sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://macro.snowdev.com.br");
+    log("");
+    log("");
+	set(swautodefender);
+	
+	do;
+		ifmatches(%GUI%,INVENTORY);
+			key(use);
+		endif;
+	loop;
+endif;
+}$$

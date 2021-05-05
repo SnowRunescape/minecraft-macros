@@ -1,0 +1,106 @@
+$${
+//MACRO: SwUpAxeAndSword V1.1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://macro.snowdev.com.br/
+
+//Digite o DELAY do HIT em MS?
+#swhitdelay = 1;
+
+//Trocar de ESPADA/MACHADO com quantos de DURABILIDADE?
+#swmindurability = 20;
+
+
+if(swupswordandaxe);
+    log("");
+    log("");
+    log("&6[Macro] &fSwUpAxeAndSword &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	unset(swupswordandaxe);
+	stop();
+else;
+	set(swupswordandaxe);
+    log("");
+    log("");
+    log("&6[Macro] &fSwUpAxeAndSword sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	
+	getslotitem(1,&switeminvid,#switeminvstack);
+	
+	if(%&switeminvid% == "");
+		&sw_mine_version = "1.5.x";
+	else;
+		&sw_mine_version = "1.8.x";
+	endif;
+	
+	&sw_itens_valid_15 = "^258$|^271$|^275$|^279$|^286$|^267$|^268$|^272$|^276$|^283$";
+	&sw_itens_valid_18 = "^iron_axe$|^wooden_axe$|^stone_axe$|^diamond_axe$|^golden_axe$|^iron_sword$|^wooden_sword$|^stone_sword$|^diamond_sword$|^golden_sword$";
+	
+	#sw_slot_instance = 1;
+	
+	DO;
+		do;
+			#sw_pass_next = 0;
+			
+			slot(%#sw_slot_instance%);
+			
+			wait(20t);
+			
+			if(%&sw_mine_version% == "1.5.x");
+				ifmatches(%&sw_itens_valid_15%,%ITEM%);
+					#sw_pass_next = 1;
+				else;
+					inc(#sw_slot_instance);
+				endif;
+			else;
+				ifmatches(%&sw_itens_valid_18%,%ITEM%);
+					#sw_pass_next = 1;
+				else;
+					inc(#sw_slot_instance);
+				endif;
+			endif;
+			
+			if(%#sw_slot_instance% > 9);
+				log("");
+				log("");
+				log("&6[Macro] &fSuas &6&lESPADAS/MACHADOS &cACABARAM&f!");
+				log("&6[Macro] &fSwUpAxeAndSword &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+				log("&6[Macro] &fPara mais macros como esse acesse o site:");
+				log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+				log("");
+				log("");
+				unset(swupswordandaxe);
+				stop();
+			endif;
+		until(%#sw_pass_next% == 1);
+		
+		do;
+			if(%DURABILITY% >= %#swmindurability%);
+				key(attack);
+				
+				wait(%#swhitdelay%ms);
+			else;
+				inc(#sw_slot_instance);
+			endif;
+		until(%DURABILITY% <= %#swmindurability%);
+		
+		if(%#sw_slot_instance% > 9);
+			log("");
+			log("");
+			log("&6[Macro] &fSuas &6&lESPADAS/MACHADOS &cACABARAM&f!");
+			log("&6[Macro] &fSwUpAxeAndSword &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+			log("&6[Macro] &fPara mais macros como esse acesse o site:");
+			log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+			log("");
+			log("");
+			unset(swupswordandaxe);
+			stop();
+		endif;
+	LOOP;
+endif;
+}$$

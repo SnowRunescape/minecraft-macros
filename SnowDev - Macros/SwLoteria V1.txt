@@ -1,0 +1,80 @@
+$${
+//MACRO: SwLoteria V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://Macro.Snowdev.com.br/
+
+//Digite aqui o comando da loteeria
+&swcmdloteria = "/loteria";
+
+
+if(swloteria);
+    log("");
+    log("");
+    log("&6[Macro] &fSwLoteria &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	unset(swloteria);
+	stop();
+else;
+	set(swloteria);
+    log("");
+    log("");
+    log("&6[Macro] &fSwLoteria sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	
+	PROMPT(#swmaxnloteria,$$?,"A Loteria vai ate que numero? 0 a ???");
+	
+	if(%#swmaxnloteria% <= 0);
+		log("");
+		log("&6[Macro] &fVocê informou um numero &c&lINVALIDO&f!");
+		log("&6[Macro] &fSwLoteria &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+		log("");
+		unset(swloteria);
+		stop();
+	endif;
+	
+	PROMPT(#swstartnloteria,$$?,"Deseja começar a loteria em qual numero?");
+	
+	if((%#swstartnloteria% > %#swmaxnloteria%) || (%#swstartnloteria% < 0));
+		log("");
+		log("&6[Macro] &fVocê informou um numero &c&lINVALIDO&f!");
+		log("&6[Macro] &fSwLoteria &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+		log("");
+		unset(swloteria);
+		stop();
+	endif;
+	
+	PROMPT(#swdelayloteria,$$?,"Defina o DELAY em milissegundos! RECOMENDADO: 980");
+	
+	if(%#swdelayloteria% <= 0);
+		log("");
+		log("&6[Macro] &fVocê informou um &6&lDELAY &c&lINVALIDO&f!");
+		log("&6[Macro] &fSwLoteria &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+		log("");
+		unset(swloteria);
+		stop();
+	endif;
+	
+	DO;
+		echo(%&swcmdloteria% %#swstartnloteria%);
+		
+		inc(#swstartnloteria);
+		
+		if(%#swstartnloteria% > %#swmaxnloteria%);
+			log("");
+			log("&6[Macro] &fApostamos &a&lTODOS &fos numeros informados!");
+			log("&6[Macro] &fSwLoteria &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+			log("");
+			unset(swloteria);
+			stop();
+		endif;
+		
+		wait(%#swdelayloteria%ms);
+	LOOP;
+endif;
+}$$

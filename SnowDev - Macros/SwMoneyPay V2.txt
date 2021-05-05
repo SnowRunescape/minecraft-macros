@@ -1,0 +1,101 @@
+$${
+//MACRO: SwMoneyPay V2
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//http://macro.snowdev.com.br/
+
+
+if(swmoneypay);
+    log("&6[Macro] &fVocê &c&lCANCELOU &fo Envio do dinheiro!");
+    log("&6[Macro] &fSwMoneyPay &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fhttps://macro.snowdev.com.br");
+    unset(swmoneypay);
+    stop();
+else;
+    set(swmoneypay);
+    
+    ifmatches(%HIT%,PLAYER);
+        &swplayername = %HITNAME%;
+        
+        PROMPT(&swpayvalue,$$?,"Quantos você deseja enviar para ( %&swplayername% )? EX: 10K");
+        
+        &swfixedpayvalue = %&swpayvalue%;
+        
+        if(%&swpayvalue% == "");
+            log(&6[Macro] &fVocê &c&lCANCELOU &fo envio!);
+            log("&6[Macro] &fSwMoneyPay &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+            log("&6[Macro] &fhttps://macro.snowdev.com.br");
+        endif;
+        
+        log("");
+        log("&6[Macro] &fAguarde, a &6SnowDev &festá processando a &6&lTRANSACAO&f!");
+        log("");
+        
+        #swcountleng = 0;
+        #swcontainsnumber = 0;
+
+        FOR(#swcount,1,999);
+            IFMATCHES(%&swpayvalue%,([a-z0-9 !@#$%&*()_\-=+/\,\[\]{}?.<>:´'`~^çàáâãäèéêëìíîïòóôõöùúûüÀÁÂÃÄÈÉÊËÌÍÎÒÓÔÕÖÙÚÛÜçÇñÑ\"]{%#swcount%}));
+                inc(#swcountleng);
+            else;
+                break();
+            ENDIF;
+        NEXT;
+
+        FOR(#swcount,1,%#swcountleng%);
+            IFMATCHES(%&swpayvalue%,([^0-9k]));
+                log("&6[Macro] &fVocê inseriu algum caracter &c&lINVALIDO&f!");
+                log("&6[Macro] &fSwMoneyPay &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+                unset(swmoneypay);
+                stop();
+            ENDIF;
+
+            IFMATCHES(%&swpayvalue%,([0-9]));
+                #swcontainsnumber = 1;
+            ENDIF;
+        NEXT;
+    
+        if(%#swcontainsnumber% == 0);
+            log("&6[Macro] &fVocê &c&lNAO &finformou o valor a ser &a&lENVIADO&f!");
+            log("&6[Macro] &fSwMoneyPay &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+            unset(swmoneypay);
+            stop();
+        endif;
+
+        if((%&swpayvalue% == "0") || (%&swpayvalue% == "0k") || (%&swpayvalue% == "0K"));
+            log("&6[Macro] &fO &a&lVALOR &finformado é &c&lINVALIDO&f!");
+            log("&6[Macro] &fSwMoneyPay &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+            unset(swmoneypay);
+            stop();
+        endif;
+
+        replace(&swfixedpayvalue,"k","K");
+        
+        replace(&swpayvalue,"k","000");
+        replace(&swpayvalue,"K","000");
+        
+        wait(500ms);
+        
+        log("");
+        log("&6[Macro] &fSera enviado &6%&swfixedpayvalue% &fde &6coins &fpara o jogador &6%&swplayername%&f!");
+        log("&6[Macro] &fVocê Tem ate &65 Segundos &fPara &c&lCANCELAR &fa transacao!");
+        log("");
+        
+        wait(5);
+        echo(/money pay %&swplayername% %&swpayvalue%);
+        wait(500ms);
+        
+        log("&6[Macro] &fDinheiro &2&lENTREGE &fa &6%&swplayername% &fcom &2sucesso&f!");
+        log("&6[Macro] &fSwMoneyPay &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+        log("&6[Macro] &fhttps://macro.snowdev.com.br");
+        unset(swmoneypay);
+        stop();
+    else;
+        log("");
+        log("&7[&c!&7] &6&lSwMoneyPay&f, By &cSnowRunescape&f!");
+        log("&6&lINFO: &fPara ligar o macro, Deixe a mira na pessoa desejada e ligue o macro!");
+        log("");
+        unset(swmoneypay);
+        stop();
+    endif;
+ENDIF;
+}$$

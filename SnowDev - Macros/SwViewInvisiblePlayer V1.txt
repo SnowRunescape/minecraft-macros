@@ -1,0 +1,14 @@
+$${
+//MACRO: SwViewInvisiblePlayer V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://macro.snowdev.com.br/
+
+
+ifmatches(%HIT%,PLAYER);
+	log("");
+	log("&6&lINFO: &fO Jogador Que está em sua mira é o &6%HITNAME%");
+	log("");
+else;
+	log("&6&lINFO: &3Não tem ninguem na sua mira!");
+endif;
+}$$

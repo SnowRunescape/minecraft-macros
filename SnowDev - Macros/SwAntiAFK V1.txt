@@ -1,0 +1,124 @@
+$${
+//MACRO: SwAntiAFK V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://Macro.Snowdev.com.br/
+
+//Ativar o ANTI-AFK depois de quanto tempo parado?
+//Tempo em segundos!
+#swtimeonafk = 120;
+
+//Deseja executar algum comando antes de ativar o ANTI-AFK?
+//Marque com TRUE ou FALSE!
+&swusecmd = FALSE;
+
+//Qual comando deseja utilizar antes de ativar o ANTI-AFK?
+&swcmdafterafk = "/home";
+
+//Esperar quanto tempo depois de digitar o comando?
+//Tempo em segundos!
+#swtimebeforatypecmd = 5;
+
+if(swantiafk);
+    if(%#swestagio% == 1);
+		#swestagio = 0;
+		
+		log("");
+		log("&6[Macro] &fVocê não está mais &6&lAFK&f!");
+		log("");
+		
+		wait(20ms);
+		keyup(forward);
+		
+		wait(60ms);
+		keyup(forward);
+    else;
+		log("");
+		log("");
+		log("&6[Macro] &fSwAntiAFK &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+		log("&6[Macro] &fPara mais macros como esse acesse o site:");
+		log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+		log("");
+		log("");
+        unset(swantiafk);
+        stop();
+    endif;
+else;
+    set(swantiafk);
+    log("");
+    log("");
+    log("&6[Macro] &fSwAntiAFK sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+    
+    #swestagio    = 0;
+	#swdirantiafk = 0;
+    
+    DO;
+        if(%#swestagio% == 0);
+            #swantiafkxposs = %XPOS%;
+            #swantiafkyposs = %YPOS%;
+            #swantiafkzposs = %ZPOS%;
+            #swafkcount = 0;
+
+            do;
+                wait(100ms);
+                inc(#swafkcount, 2);
+
+                if((%#swafkcount% / 10) >= %#swtimeonafk%);
+                    #swestagio = 1;
+                    break();
+                endif;
+            until((%#swantiafkxposs% != %XPOS%) || (%#swantiafkyposs% != %YPOS%) || (%#swantiafkzposs% != %ZPOS%));
+        elseif(%#swestagio% == 1);
+			log("");
+			log("&6[Macro] &fVocê está &6&lAFK&f!");
+			log("&6[Macro] &2&lATIVANDO &fo &6&lANTI-AFK&f, Feito por &cSnowRunescape&f!");
+			log("");
+			
+			if((%&swusecmd% == "true") || (%&swusecmd% == "True") || (%&swusecmd% == "TRUE"));
+				echo(%&swcmdafterafk%);
+				wait(%#swtimebeforatypecmd%);
+			endif;
+			
+			do;
+				#swafkcount = 0;
+				
+				keydown(forward);
+				
+				if(%#swdirantiafk% == 0);
+					look(NORTH);
+				elseif(%#swdirantiafk% == 1);
+					look(SOUTH);
+				endif;
+				
+				#swantiafkxposs = %XPOS%;
+				#swantiafkyposs = %YPOS%;
+				#swantiafkzposs = %ZPOS%;
+				
+				do;
+					if(%#swdirantiafk% == 0);
+						look(NORTH);
+					elseif(%#swdirantiafk% == 1);
+						look(SOUTH);
+					endif;
+					
+					wait(1ms);
+					inc(#swafkcount);
+
+					if(%#swafkcount% > 5);
+						if(%#swdirantiafk% == 0);
+							#swdirantiafk = 1;
+						elseif(%#swdirantiafk% == 1);
+							#swdirantiafk = 0;
+						endif;
+						
+						break();
+					endif;
+				until((%#swantiafkxposs% != %XPOS%) || (%#swantiafkyposs% != %YPOS%) || (%#swantiafkzposs% != %ZPOS%));
+			until(%#swestagio% == 0);
+        endif;
+    LOOP;
+endif;
+}$$

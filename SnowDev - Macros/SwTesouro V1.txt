@@ -1,0 +1,127 @@
+$${
+//MACRO: SwTesouro V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://macro.snowdev.com.br/
+
+&swhunter15x = "^320$|^322$|^350$|^360$|^364$|^366$|^260$|^391$|^393$|^297$|^400$";
+&swhunter18x = "^320$|^350$|^360$|^364$|^366$|^260$|^391$|^393$|^297$|^400$";
+
+
+if(swtesouro);
+	log("");
+	log("");
+	log("&6[Macro] &fSwTesouro &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+	log("");
+	log("");
+	keyup(forward);
+	unset(swtesouro);
+	stop();
+else;
+	set(swtesouro);
+	log("");
+	log("");
+	log("&6[Macro] &fSwTesouro sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+	log("");
+	log("");
+	
+	#swslotfood = -1;
+	
+	&swmineversion = "";
+	
+	prompt(#swxtesouro,$$?,"Qual é a COORDENADA X do tesouro?");
+	prompt(#swztesouro,$$?,"Qual é a COORDENADA Z do tesouro?");
+	
+	log("");
+	log("&7[&c!&7] &6&lSwTesouro&f, By &cSnowRunescape&f!");
+	log("&6&lINFO: &fIndo a coordenada &6&lX: &3%#swxtesouro%&f, &6&lZ: &3%#swztesouro%&f. Aguarde...");
+	log("");
+	
+	gui();
+	wait(300ms);
+	
+	getslotitem(1,&switeminvid,#switeminvstack);
+	
+	if(%&switeminvid% == "");
+		&swmineversion = "1.5.x";
+	else;
+		&swmineversion = "1.8.x";
+	endif;
+	
+	for(#swi,1,9);
+		if(%&swmineversion% == "1.5.x");
+			getslotitem(%#swi%,#id);
+			
+			ifmatches(%#id%,%&swhunter15x%);
+				#swslotfood = %#swi%;
+				break();
+			endif;
+		elseif(%&swmineversion% == "1.8.x");
+			getslotitem(%#swi%,&id);
+			
+			ifmatches(%&id%,%&swhunter18x%);
+				#swslotfood = %#swi%;
+				break();
+			endif;
+		endif;
+	next;
+	
+	if(%#swslotfood% != -1);
+		log("&6&lINFO: &fFoi encontrado &6&lCOMIDA &fem sua &6&lHOTBAR &3:D");
+	else;
+		log("&6&lINFO: &c&lNAO &ffoi encontrado &6&lCOMIDA &fem sua &6&lHOTBAR&f, cuidado &3:x");
+	endif;
+
+	wait(2);
+	
+	do;
+		gui(INVENTORY);
+		
+		if(%#swslotfood% != -1);
+			if(%HUNGER% <= 6);
+				do;
+					gui(INVENTORY);
+					slot(%#swslotfood%);
+					key(use);
+				while(%HUNGER% < 20);
+			endif;
+		endif;
+		
+		keydown(forward);
+		sprint;
+		
+		if((%#swxtesouro% == %XPOS%) && (%#swztesouro% > %ZPOS%));
+			look(NORTH);look(-180,0);
+		elseif((%#swxtesouro% == %XPOS%) && (%#swztesouro% < %ZPOS%));
+			look(NORTH);look(0,0);
+		elseif((%#swxtesouro% > %XPOS%) && (%#swztesouro% == %ZPOS%));
+			look(NORTH);look(90,0);
+		elseif((%#swxtesouro% < %XPOS%) && (%#swztesouro% == %ZPOS%));
+			look(NORTH);look(-90,0);
+		elseif((%#swxtesouro% > %XPOS%) && (%#swztesouro% > %ZPOS%));
+			look(NORTH);look(135,0);
+		elseif((%#swxtesouro% < %XPOS%) && (%#swztesouro% > %ZPOS%));
+			look(NORTH);look(-135,0);
+		elseif((%#swxtesouro% < %XPOS%) && (%#swztesouro% < %ZPOS%));
+			look(NORTH);look(-45,0);
+		elseif((%#swxtesouro% > %XPOS%) && (%#swztesouro% < %ZPOS%));
+			look(NORTH);look(45,0);
+		endif;
+	until((%XPOS% == %#swxtesouro%) && (%#swztesouro% == %ZPOS%));
+	
+	log("");
+	log("&6[Macro] &fO &6&lTESOURO &ffoi encontrado, &3boa sorte &6&l:D");
+	log("&6[Macro] &fSwTesouro &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+	log("");
+	keyup(forward);
+	gui();
+	
+	look(NORTH);look(0,90);
+	
+	unset(swtesouro);
+	stop();
+endif;
+}$$

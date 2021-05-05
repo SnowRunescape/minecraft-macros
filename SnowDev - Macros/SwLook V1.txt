@@ -1,0 +1,21 @@
+$${
+//MACRO: SwLook V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://macro.snowdev.com.br/
+
+
+look(%YAW%,%PITCH%);
+
+set(#yaw,%YAW%);
+set(#pitch,%PITCH%);
+
+look(%YAW%,%PITCH%);
+
+log("");
+log("");
+log("&b» &6Olá &a%PLAYER%&6, o seu &aLook &6Original é: &cLOOK (%YAW%,%PITCH%)");
+log("&6[Macro] &fPara mais macros como esse acesse o site:");
+log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+log("");
+log("");
+}$$

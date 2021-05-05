@@ -1,0 +1,75 @@
+$${
+//MACRO: SwArco V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://Macro.Snowdev.com.br/
+
+
+if(swarco);
+	log("");
+	log("");
+	log("&6[Macro] &fSwArco &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+	log("");
+	log("");
+	unset(swarco);
+	stop();
+else;
+	set(swarco);
+    log("");
+    log("");
+    log("&6[Macro] &fSwArco sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	
+	IFMATCHES(%DIRECTION%,N);
+	&frente = NORTH;
+	ENDIF;
+	IFMATCHES(%DIRECTION%,S);
+	&frente = SOUTH;
+	ENDIF;
+	IFMATCHES(%DIRECTION%,W);
+	&frente = WEST;
+	ENDIF;
+	IFMATCHES(%DIRECTION%,E);
+	&frente = EAST;
+	ENDIF;
+	
+	gui(inventory);
+	
+	DO;
+		do;
+			ifmatches(%GUI%,NONE);log("&e");log("&6&l[&e&l!&6&l] &f&lInventario fechado, retomada quando abrir!");log("&e");do;ifmatches(%GUI%,INVENTORY);break;endif;loop;endif;
+			ifmatches(%GUI%,CHAT);log("&e");log("&6&l[&e&l!&6&l] &f&lInventario fechado, retomada quando abrir!");log("&e");do;ifmatches(%GUI%,INVENTORY);break;endif;loop;endif;
+			
+			pick(261);
+			
+			LOOK(%&frente%);
+			LOOK(,-15);
+			
+			do(5);
+				key(use);
+			loop;
+		
+		while(DURABILITY>30);
+		
+		look(0,90);
+		
+		wait(1);
+		
+		do(2);
+			key(use);
+			wait(50ms);
+			
+			if(%DURABILITY% < 15);
+				log("&6[Macro] &fSwArco &4&lOFF&f!");
+				log("&6[Macro] &fVocê precisa de mais linha para reparar o arco &6&l:P");
+				unset(swarco);
+				stop();
+			endif;
+		loop;
+	LOOP;
+endif;
+}$$

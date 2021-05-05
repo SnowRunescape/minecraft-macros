@@ -1,0 +1,163 @@
+$${
+//MACRO: SwMinerar V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://macro.snowdev.com.br/
+
+//Deseja vender os itens a cada quantos segundos?
+#swdelaysellminerar = 100;
+
+//Delay do teleporte?  em MS
+#swdelayteleport = 2500;
+
+//Digite abaixo todos os blocos que tem na mina
+#swblocosmina[] = 21;
+#swblocosmina[] = 22;
+
+
+if(swminerar);
+	log("");
+	log("");
+	log("&6[Macro] &fSwMinerar &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttps://macro.snowdev.com.br");
+	log("");
+	log("");
+	
+	keyup(forward);
+	
+	unset(swminerar);
+	stop();
+else;
+    log("");
+    log("");
+    log("&6[Macro] &fSwArco sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://macro.snowdev.com.br");
+    log("");
+    log("");
+	
+	set(swminerar);
+	
+	unset(#swblocosmina_temp[]);
+	
+	FOREACH(#swblocosmina[],#swout);
+		PUT(#swblocosmina_temp[],%#swout%);
+	next;
+	
+	unset(#swblocosmina[]);
+	
+	#swtask = 0;
+	#volta = 0;
+	#swminerarcount = 0;
+	
+	do;
+		if(%#swtask% == 0);
+			echo("/home SwMinerar");
+			
+			wait(%#swdelayteleport%ms);
+			
+			#swtask = 3;
+		elseif(%#swtask% == 1);
+			echo("/home SwMinerarVender");
+			
+			wait(%#swdelayteleport%ms);
+			
+			key(attack);
+			
+			wait(300ms);
+			
+			#swtask = 0;
+		elseif(%#swtask% == 2);
+			look(+0,90);
+			
+			wait(300ms);
+			
+            #swxinit = %HITX%;
+            #swyto = %HITY%;
+            #swzinit = %HITZ%;
+
+			do;
+				look(+0,90);
+				key(attack);
+				wait(0);
+			until((%HITX% != %#swxinit%) || (%HITY% != %#swyto%) || (%HITZ% != %#swzinit%));
+
+            walkto(%#swxinit%,%#swyto%,%#swzinit%);
+			
+			#swtask = 3;
+		elseif(%#swtask% == 3);
+			INDEXOF(#swblocosmina_temp[],#swindexofreturn,%HITID%);
+			
+			if(%#swindexofreturn% != -1);
+				look(%#look%,40);
+				key(attack);
+				
+				keydown(forward);
+				
+				inc(#swminerarcount);
+			else;
+				wait(175ms);
+				
+				keyup(forward);
+				
+				wait(350ms);
+				look(+90,40);
+				wait(350ms);
+				
+				inc(#volta);
+			endif;
+			
+			&look = %DIRECTION%;
+			
+			if(%&look% == "N");
+				look(0,40);
+				#look=0;
+			elseif(%&look% == "S");
+				look(180,40);
+				#look=180;
+			elseif(%&look% == "E");
+				look(90,40);
+				#look=90;
+			elseif(%&look% == "W");
+				look(270,40);
+				#look=270;
+			endif;
+			
+			if(%#volta% > 4);
+				getidrel(0,-1,0,#bloco);
+				
+				#volta = 0;
+				
+				INDEXOF(#swblocosmina_temp[],#swindexofreturn,%#bloco%);
+				
+				if(%#swindexofreturn% == 0);
+					#swtask = 2;
+				else;
+					#swtask = 0;
+				endif;
+			endif;
+			
+			if(%DURABILITY% <= 80);
+				keyup(forward);
+				
+				#swtask = 4;
+			endif;
+			
+			if(%#swminerarcount% >= (%#swdelaysellminerar% * 10));
+				#swminerarcount = 0;
+				#swtask = 1;
+				
+				keyup(forward);
+				
+				wait(100ms);
+			endif;
+		elseif(%#swtask% == 4);
+			echo("/fix");
+			
+			wait(800ms);
+			
+			#swtask = 3;
+		endif;
+	loop;
+endif;
+}$$

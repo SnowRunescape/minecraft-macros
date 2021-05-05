@@ -1,0 +1,99 @@
+$${
+//MACRO: SwSimpleFishing V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//http://Macro.Snowdev.com.br/
+
+//Deseja REPARAR o item em sua mao com um BLOCO DE FERRO
+//ou com o comando /FIX ?
+//Digite apenas ( BLOCO ) ou ( FIX )
+&swusetofixitem = "BLOCO";
+
+
+IF(swsimplespesca);
+    log("");
+    log("");
+    log("&6[Macro] &fSwSimpleFishing &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+    log("");
+    log("");
+    unset(swsimplespesca);
+    stop();
+ELSE;
+    set(swsimplespesca);
+    log("");
+    log("");
+    log("&6[Macro] &fSwSimpleFishing sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	
+	wait(1);
+	
+	if((%&swusetofixitem% = "FIX") || (%&swusetofixitem% = "fix"));
+		log("&6[Macro] &fSera utilizado o comando &6&l/FIX &fpara reparar o item em sua mao!");
+	else;
+		log("&6[Macro] &fSera utilizado um &6&lBLOCO DE FERRO &fpara reparar o item em sua mao!");
+	endif;
+	
+	wait(1);
+    
+    IFMATCHES(%DIRECTION%,N);
+    &frente = NORTH;
+    ENDIF;
+    IFMATCHES(%DIRECTION%,S);
+    &frente = SOUTH;
+    ENDIF;
+    IFMATCHES(%DIRECTION%,W);
+    &frente = WEST;
+    ENDIF;
+    IFMATCHES(%DIRECTION%,E);
+    &frente = EAST;
+    ENDIF;
+
+    DO;
+        if(%DURABILITY% < 40);
+			log("&6[Macro] &fO Item que esta em suas maos esta quebrando !!");
+			log("&6[Macro] &fIniciando o processo de &6&lReparar&f!");
+			wait(100ms);
+			
+			if((%&swusetofixitem% = "FIX") || (%&swusetofixitem% = "fix"));
+				do;
+					echo(/fix);
+					wait(2);
+					key(use);
+					wait(500ms);
+				until(%DURABILITY% > 40);
+			else;
+				do;
+					LOOK(%&frente%);
+					LOOK(,+90);
+					
+					key(use);
+					wait(1);
+				UNTIL(%DURABILITY% > 40);
+			endif;
+        endif;
+        
+        DO(3);
+            LOOK(%&frente%);
+            LOOK(,-90);
+            key(use);
+        LOOP;
+        
+        if((%DURABILITY% < 5) && (%ITEM% = 346));
+            log("");
+            log("");
+            log("&6[Macro] &fVoce precisa de mais &6&lLINHA &fpara reparar a vara :p");
+            log("&6[Macro] &fSwSimpleFishing &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+            log("&6[Macro] &fPara mais macros como esse acesse o site:");
+            log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+            log("");
+            log("");
+            unset(swsimplespesca);
+            stop();
+        endif;
+    LOOP;
+ENDIF;
+}$$

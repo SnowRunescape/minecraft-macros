@@ -1,0 +1,91 @@
+$${
+//MACRO: SwXray V3
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://macro.snowdev.com.br/
+
+//Defina a distancia HORIZONTAL ( Para os lados ) que ira procurar o minerio
+//Distancia maxima 40!
+#swrangexrayhorizontal = 12;
+
+//Defina a distancia VERTICAL ( Para cima e para baixo ) que ira procurar o minerio
+#swrangexrayhorizontalvertical = 5;
+
+if(swxray);
+	log("");
+	log("");
+	log("&6[Macro] &fSwXray &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+	log("");
+	log("");
+    unset(swxray);
+    stop();
+else;
+    log("");
+    log("");
+    log("&6[Macro] &fSwXray sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+    set(swxray);
+    set(swxrayrestart);
+	
+	PROMPT(#minerio,$$?,"Qual é id do bloco que está procurando? diamante=56");
+    
+	if(%#swrangexrayhorizontal% > 40);
+		#swrangexrayhorizontal = 40;
+		
+		log(" ");
+		log("&6[Macro] &fAjustamos a distancia &6&lHORIZONTAL &fpara &a&l40&f!");
+		log(" ");
+	endif;
+	
+    unsafe(4000);
+        DO;
+            if(swxrayrestart);
+                #swxoff = -%#swrangexrayhorizontal%;
+				
+				if(%YPOS% <= 5);
+					#swyoff = -%YPOS% + 1;
+				else;
+					#swyoff = -%#swrangexrayhorizontalvertical%;
+				endif;
+                
+                #swzoff = -%#swrangexrayhorizontal%;
+                
+                unset(swxrayrestart);
+            endif;
+            
+            getidrel(%#swxoff%,%#swyoff%,%#swzoff%,#swblockoff);
+			
+            if(%#swblockoff% == %#minerio%);
+				#swlocblockx = %XPOS% + %#swxoff%;
+				#swlocblocky = %YPOS% + %#swyoff%;
+				#swlocblockz = %ZPOS% + %#swzoff%;
+				
+                log("&6[Macro] &fTem um minerio nas cordenadas X: &6%#swlocblockx% &fY: &6%#swlocblocky% &fZ: &6%#swlocblockz%");
+            endif;
+			
+			inc(#swxoff);
+            
+            if(%#swxoff% > %#swrangexrayhorizontal%);
+                #swxoff = -%#swrangexrayhorizontal%;
+                
+                inc(#swzoff);
+            endif;
+            
+            if(%#swzoff% > %#swrangexrayhorizontal%);
+                #swxoff = -%#swrangexrayhorizontal%;
+                #swzoff = -%#swrangexrayhorizontal%;
+                
+                inc(#swyoff);
+            endif;
+            
+            if(%#swyoff% > %#swrangexrayhorizontalvertical%);
+                set(swxrayrestart);
+            endif;
+        LOOP;
+    endunsafe;
+endif;
+}$$

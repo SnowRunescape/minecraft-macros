@@ -1,0 +1,112 @@
+$${
+//MACRO: SwMsgG V4
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://Macro.Snowdev.com.br/
+
+//Defina o delay do hit abaixo ( Valor em MS )
+#swdelayhit = "300";
+
+//Deseja REPARAR o item em sua mao com um BLOCO DE FERRO
+//ou com o comando /FIX ?
+//Digite apenas ( BLOCO ) ou ( FIX )
+&swusetofixitem = "BLOCO";
+
+
+if(swmob);
+	log("");
+	log("");
+	log("&6[Macro] &fSwMob &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+	log("");
+	log("");
+	unset(swmob);
+	stop();
+else;
+	set(swmob);
+	log("");
+	log("");
+	log("&6[Macro] &fSwMob sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+	log("");
+	log("");
+	
+	IFMATCHES(%DIRECTION%,N);
+	&frente = NORTH;
+	ENDIF;
+	IFMATCHES(%DIRECTION%,S);
+	&frente = SOUTH;
+	ENDIF;
+	IFMATCHES(%DIRECTION%,W);
+	&frente = WEST;
+	ENDIF;
+	IFMATCHES(%DIRECTION%,E);
+	&frente = EAST;
+	ENDIF;
+	
+	log("&6[Macro] &fAguarde... Gravando suas coordenadas!");
+	#x1=%XPOS%;#y1=%YPOS%;#z1=%ZPOS%;
+	wait(500ms);
+	log("&6[Macro] &fCordenadas salvas com sucesso!");
+	wait(500ms);
+	log("");
+	log("");
+	
+	if(%&swusetofixitem% = "FIX");
+		log("&6[Macro] &fSera utilizado o comando &6&l/FIX &fpara reparar o item em sua mao!");
+	else;
+		log("&6[Macro] &fSera utilizado um &6&lBLOCO DE FERRO &fpara reparar o item em sua mao!");
+	endif;
+	
+	log("");
+	log("");
+	
+	wait(500ms);
+	
+	log("&6[Macro] &fFoi marcado a home &6&l/home SwMob &fneste local!!");
+	echo(/sethome SwMob);
+	wait(500ms);
+	
+	do;
+		if((%ZPOS% != %#z1%) || (%XPOS% != %#x1%));
+			log("&6[Macro] &fParece que você não esta no lugar certo, indo a &6&l/home SwMob");
+			echo(/home SwMob);
+			wait(2);
+			until((%XPOS%=%#x1%)&&(%YPOS%=%#y1%)&&(%ZPOS%=%#z1%));
+		endif;
+
+		LOOK(%&frente%);
+		LOOK(,-15);
+		key(attack);
+		wait(%#swdelayhit%ms);
+		
+		if(%DURABILITY% < 45);
+			log("&6[Macro] &fO Item que esta em suas maos esta quebrando !!");
+			log("&6[Macro] &fIniciando o processo de &6&lReparar&f!");
+			wait(100ms);
+			
+			if(%&swusetofixitem% = "FIX");
+				do;
+					echo(/fix);
+					wait(2);
+				until(%DURABILITY% > 45);
+			else;
+				look(0,90);
+				wait(1);
+				
+				do(2);
+					key(use);
+					wait(200ms);
+				loop;
+			endif;
+			
+			if(%DURABILITY% < 25);
+				log("&6[Macro] &fNao conseguimos reparar o item que esta em suas mao !!");
+				log("&6[Macro] &fPor motivos de segurança o macro foi &c&lDESLIGADO &f!!");
+				unset(swmob);
+				stop();
+			endif;
+		endif;
+	loop;
+}$$

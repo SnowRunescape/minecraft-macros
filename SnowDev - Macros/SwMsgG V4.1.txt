@@ -1,0 +1,54 @@
+$${
+//MACRO: SwMsgG V4.1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://macro.snowdev.com.br/
+
+//Digite abaixo o ANUNCIO que ira aparecer quando voce diditar
+//( ANUNCIO ) no PROMPT
+//Lembre-se de colocar a cor que você queira!
+&swanun = "&3Anuncio Aqui!";
+
+//Escolha a cor que sera inserida quando vc for mandar uma mensagem!
+&swcor = "&3";
+
+//Qual o comando sera utilizado para enviar o anuncio
+&swcmdanun = "/a";
+
+//Qual o comando que sera utilizado para enviar mensagens?
+&swcmdglobal = "/g";
+
+
+prompt(&swmsg,$$?,"Digite a mensagem que deseja enviar no global.");
+
+if(%&swmsg% == "");
+    log("&6[Macro] &fVoce nao digitou nenhuma mensagem!");
+    log("&6[Macro] &fMensagem &c&lCANCELADA&f!");
+    stop();
+elseif(%&swmsg% = "re");
+    &swmsg = %&revar%;
+elseif((%&swmsg% = "anuncio") || ((%&swmsg% = "ANUNCIO")));
+    echo(%&swcmdanun% %&swanun%);
+    stop();
+else;
+    &revar = %&swmsg%;
+endif;
+
+&swmsgcount = %&swmsg%;
+
+unsafe;
+    #length = 0;
+    
+    do;
+        match(%&swmsgcount%,"^.(.*)",{&swmsgcount});
+        inc(#length);
+    while(%&swmsgcount% != "");
+
+    if(%#length% > 93);
+        #length = 93;
+    endif;
+
+    match(%&swmsg%,([^Ü]){%#length%},&swnewtext);
+endunsafe;
+
+echo(%&swcmdglobal% %&swcor%%&swnewtext%);
+}$$

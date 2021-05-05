@@ -1,0 +1,28 @@
+$${
+log("&f[DEBUG] &3Initiziling macro.");
+log("&f[DEBUG] &3Your location: %XPOS%, %YPOS%, %ZPOS%");
+log("&f[DEBUG] &3Your look: %YAW%, %PITCH%");
+
+unset(&sw_locations_shop[]);
+&sw_locations_shop[] = "%XPOS%,%YPOS%,%ZPOS%"
+&sw_look_shop_place = "%YAW%,%PITCH%"
+
+do;
+    ARRAYSIZE(&sw_locations_shop,#sw_locations_shop_size);
+    #sw_l_i = %#sw_locations_shop_size% - 1;
+
+    match(%&sw_locations_shop[%#sw_l_i%]%,"(.+),(.+),(.+)",{#sw_c_l_x,#sw_c_l_y,#sw_c_l_z});
+
+    if((%#sw_c_l_x% != %XPOS%) || (%#sw_c_l_y% != %YPOS%) || (%#sw_c_l_z% != %ZPOS%));
+        &sw_locations_shop[] = "%XPOS%,%YPOS%,%ZPOS%"
+        log("&f[DEBUG] &3 Added new location: %XPOS%, %YPOS%, %ZPOS%");
+    endif;
+	
+	match(%&sw_look_shop_place%,"(.+),(.+)",{#sw_c_l_p_y,#sw_c_l_p_p});
+	
+	if((%#sw_c_l_p_y% != %YAW%) || (%#sw_c_l_p_p% != %PITCH%))
+		&sw_look_shop_place = "%YAW%,%PITCH%"
+        log("&f[DEBUG] &3 New look seted: %YAW%, %PITCH%");
+	endif;
+loop;
+}$$

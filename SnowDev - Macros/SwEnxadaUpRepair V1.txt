@@ -1,0 +1,125 @@
+$${
+//MACRO: SwEnxadaUpRepair V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://macro.snowdev.com.br/
+
+
+if(swenxadauprepair);
+	log("");
+	log("");
+	log("&6[Macro] &fSwEnxadaUpRepair &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+	log("");
+	log("");
+	keyup(jump);
+	unset(swenxadauprepair);
+	stop();
+else;
+	set(swenxadauprepair);
+	log("");
+	log("");
+	log("&6[Macro] &fSwEnxadaUpRepair sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+	log("");
+	log("");
+	
+	getslotitem(1,&switeminvid,#switeminvstack);
+	
+	if(%&switeminvid% == "");
+		&sw_mine_version = "1.5.x";
+	else;
+		&sw_mine_version = "1.8.x";
+	endif;
+	
+	log("");
+	log("&6[Macro] &fAguarde... Estamos localizando a &6&lEnxada &fem sua &6&lHOTBAR&f!");
+	log("");
+	
+	for(#sw_enxada_slot,1,10);
+		slot(%#sw_enxada_slot%);
+		
+		wait(20t);
+		
+		if(%&sw_mine_version% == "1.5.x");
+			if(%ITEM% == 291);
+				log("");
+				log("&6[Macro] &fLocalizamos sua &6&lEnxada &fem sua  &6&lHOTBAR&f &f:D");
+				log("");
+				
+				break();
+			endif;
+		else;
+			if(%ITEM% == "stone_hoe");
+				log("");
+				log("&6[Macro] &fLocalizamos sua &6&lEnxada &fem sua  &6&lHOTBAR&f &f:D");
+				log("");
+				
+				break();
+			endif;
+		endif;
+	next;
+	
+	if(%#sw_enxada_slot% == 10);
+		log("");
+		log("");
+		log("&6[Macro] &c&lNao &flocalizamos sua &6&lEnxada &fem sua &6&lHOTBAR&f!");
+		log("&6[Macro] &fSwEnxadaUpRepair &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+		log("&6[Macro] &fPara mais macros como esse acesse o site:");
+		log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+		log("");
+		log("");
+		
+		keyup(jump);
+		unset(swenxadauprepair);
+		stop();
+	endif;
+	
+	DO;
+		if(%DURABILITY% < 5);
+			log("");
+			log("");
+			log("&6[Macro] &fEnxada está quase &c&lQuebrando&f...");
+			log("&6[Macro] &fSwEnxadaUpRepair &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+			log("&6[Macro] &fPara mais macros como esse acesse o site:");
+			log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+			log("");
+			log("");
+			
+			keyup(jump);
+			unset(swenxadauprepair);
+			stop();
+		endif;
+		
+		keydown(jump);
+		
+		wait(10ms);
+		
+		look(+50,0);
+		slot(%#sw_enxada_slot%);
+		key(use);
+		
+		if(%DURABILITY% < 30);
+			keyup(jump);
+			
+			wait(400ms);
+			
+			log("&6[Macro] &fIniciando processo de &6&lReparaçao&f...");
+			
+			look(NORTH);
+			look(+0,90);
+			
+			wait(200ms);
+			
+			look(NORTH);
+			look(+0,90);
+			wait(250ms);
+			
+			key(use);
+			wait(400ms);
+			key(use);
+		endif;
+	LOOP;
+endif;
+}$$

@@ -1,0 +1,107 @@
+$${
+//MACRO: SwClearChest V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://macro.snowdev.com.br/
+
+//Informe aqui os IDS dos itens que sera jogado fora!
+//Caso queira mais itens, so adicionar mais abaixo.
+#li[] = 262;
+#li[] = 352;
+#li[] = ;
+
+
+if(swclearchest);
+    log("");
+    log("");
+    log("&6[Macro] &fSwClearChest &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	unset(swclearchest);
+	stop();
+else;
+	set(swclearchest);
+    log("");
+    log("");
+    log("&6[Macro] &fSwClearChest sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	
+	#bau = 1;
+	
+	PROMPT(#ttlbaus,$$?,"Quantos baus são?");
+	PROMPT(&home,$$?,"Nome da home?");
+	PROMPT(#bau,$$?,"Começar em qual bau?");
+	
+	if(%#bau% > %#ttlbaus%);
+		log("");
+		log("");
+		log("&6[Macro] &fImpossivel começar no bau &6%#bau%&f!");
+		log("&6[Macro] &fSwClearChest &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+		log("&6[Macro] &fPara mais macros como esse acesse o site:");
+		log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+		log("");
+		log("");
+		unset(swclearchest);
+		stop();
+	endif;
+	
+	DO;
+		do;
+			if(%#bau%<%#ttlbaus%+1);
+				echo(/home %&home%%#bau%);
+			endif;
+			
+			if(%#bau%=%#ttlbaus%+1);
+				log("&6[Macro] &fTodos os baus foram limpos!");
+				log("&6[Macro] &fSwBauClear &4OFF&f!");
+				unset(swclearchest);
+				stop();
+			endif;
+			
+			wait(3);
+			key(use);
+			wait(1300ms);
+	   
+			ARRAYSIZE(#li,#size);#size = #size - 1;
+			
+			for(#y,0,%#size%);
+				POP(#li,#tempvar);
+			next;
+
+			#tempvar = 0;
+
+			for(#slotn,0,53);
+				getslotitem(%#slotn%,#id,#stack);INDEXOF(#li,#index,%#id%);
+				
+				if((#index != -1) && (%#id% != 0));
+					SLOTCLICK(%#slotn%,l);SLOTCLICK(-999);WAIT(250ms);
+				endif;
+			next;
+			
+			getslotitem(53,#id,#stack1);
+			getslotitem(54,#ie,#ste);
+			wait(200ms);
+			gui();
+			
+			if(%#ste%!=0);
+				#return=1;
+			else;
+				if(%#stack1%=0);
+					inc(#bau);
+					#return=0;
+				else;
+					#return=1;
+				endif;
+			endif;
+			
+			if(%#bau%>%#ttlbaus%+1);
+				#return=1;
+			endif;
+		until(%#return%);
+	LOOP;
+endif;
+}$$

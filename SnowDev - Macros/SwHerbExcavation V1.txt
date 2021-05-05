@@ -1,0 +1,760 @@
+$${
+//MACRO: SwHerbExcavation V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://macro.snowdev.com.br/
+
+//Deseja REPARAR a ferramenta usada em um BLOCO DE FERRO
+//Ou com um comando?
+//Digite apenas ( BLOCO ) ou ( CMD )
+&swusetofixitem = "CMD";
+
+//Digite o comando usado para reparar a ferramenta
+&swcmdtofixitem = "/Fix";
+
+//Verificar o inventario a cada quantos segundos
+#swdelaycheckinv = 30;
+
+
+if(swherbexcavation);
+	log("");
+	log("");
+	log("&6[Macro] &fSwHerbExcavation &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttps://macro.snowdev.com.br");
+	log("");
+	log("");
+	unset(swherbexcavation);
+	stop();
+else;
+	log("");
+	log("");
+	log("&6[Macro] &fSwHerbExcavation sendo &2&lATIVADO&f, &aAguarde...");
+	log("");
+	log("");
+	
+	#swherbexcavationestagio = 1;
+	#swslotpa = -1;
+	#swslotitemup = -1;
+	#swherbalism = 0;
+	#swexcavation = 0;
+	#swbau = 1;
+	#swcountcheckinv = 0;
+	#swdontguarditens = 0;
+	
+	&swmineversion = "";
+	&switeminvid = "";
+	
+    IFMATCHES(%DIRECTION%,N);
+		&frente = NORTH;
+    ENDIF;
+    IFMATCHES(%DIRECTION%,S);
+		&frente = SOUTH;
+    ENDIF;
+    IFMATCHES(%DIRECTION%,W);
+		&frente = WEST;
+    ENDIF;
+    IFMATCHES(%DIRECTION%,E);
+		&frente = EAST;
+    ENDIF;
+	
+	getslotitem(1,&switeminvid,#switeminvstack);
+	
+	if(%&switeminvid% == "");
+		&swmineversion = "1.5.x";
+	else;
+		&swmineversion = "1.8.x";
+	endif;
+	
+	for(#swcslot,1,9);
+		if(&swmineversion == "1.5.x");
+			getslotitem(%#swcslot%,#switeminvid,#switeminvstack);
+			
+			if(%#switeminvid% == 338);
+				#swherbalism = 1;
+				#swherbalismcana = 1;
+			elseif(%#switeminvid% == 3);
+				#swexcavation = 1;
+			elseif(%#switeminvid% == 277);
+				#swslotpa = %#swcslot%;
+			endif;
+		else;
+			getslotitem(%#swcslot%,&switeminvid,#switeminvstack);
+			
+			if(%&switeminvid% == "reeds");
+				#swherbalism = 1;
+				#swherbalismcana = 1;
+			elseif(%&switeminvid% == "dirt");
+				#swexcavation = 1;
+			elseif(%&switeminvid% == "diamond_shovel");
+				#swslotpa = %#swcslot%;
+			endif;
+		endif;
+	next;
+	
+	if(%&swmineversion% == "");
+		log("&6[Macro] &fCertifique-se que você pegou os itens necessario para upar!");
+		unset(swherbexcavation);
+		stop();
+	elseif((%#swherbalism% == 0) && (%#swexcavation% == 1) && (%#swslotpa% == -1));
+		log("&6[Macro] &fVocê não tem uma Pá de Diamante para upar &6&lESCAVAÇAO&f!");
+		unset(swherbexcavation);
+		stop();
+	elseif((%#swherbalism% == 1) && (%#swexcavation% == 0) && (%#swherbalismcana% == 0));
+		log("&6[Macro] &fVocê não tem Cana de açucar para upar &6&lHERBALISMO&f!");
+		unset(swherbexcavation);
+		stop();
+	elseif((%#swherbalism% == 1) && (%#swexcavation% == 1));
+		prompt(#swsetskill, $$?, "Você deseja upar 1-Escavaçao 2-Herbalismo?");
+		
+		if(%#swsetskill% == 1);
+			#swexcavation = 1;
+			#swherbalism  = 0;
+			
+			if(%#swslotpa% == -1);
+				log("&6[Macro] &fVocê não tem uma Pá de Diamante para upar &6&lESCAVAÇAO&f!");
+				unset(swherbexcavation);
+				stop();
+			endif;
+		elseif(%#swsetskill% == 2);
+			#swexcavation = 0;
+			#swherbalism  = 1;
+			
+			if(%#swherbalismcana% == 0);
+				log("&6[Macro] &fVocê não tem Cana de açucar para upar &6&lHERBALISMO&f!");
+				unset(swherbexcavation);
+				stop();
+			endif;
+		else;
+			log("&6[Macro] &fO Opção que você escolheu é &c&lINVALIDA&f!");
+			log("&6[Macro] &fSwHerbExcavation &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+			unset(swherbexcavation);
+			stop();
+		endif;
+	endif;
+	
+	if((%#swherbalism% == 0) && (%#swexcavation% == 0));
+		log("&6[Macro] &fAconteceu um erro, tente novamente!");
+		log("&6[Macro] &fProvavelmente está faltando algum item!");
+		log("&6[Macro] &fSwHerbExcavation &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+		unset(swherbexcavation);
+		stop();
+	endif;
+
+	log("");
+	log("");
+	log("&6[Macro] &fSwHerbExcavation sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttps://macro.snowdev.com.br");
+	log("");
+	log("");
+	set(swherbexcavation);
+	
+	if((%#swherbalism% == 1) && (%#swexcavation% == 0));
+		log("&6[Macro] &fOk! Você ira upar &6&lHERBALISMO&f!");
+		#swherbexcavationestagio = 3;
+		
+		for(#swcslot,1,9);
+			if(&swmineversion == "1.5.x");
+				getslotitem(%#swcslot%,#switeminvid,#switeminvstack);
+				
+				if(%#switeminvid% == 338);
+					#swslotitemup = %#swcslot%;
+					break;
+				endif;
+			else;
+				getslotitem(%#swcslot%,&switeminvid,#switeminvstack);
+				
+				if(%&switeminvid% == "reeds");
+					#swslotitemup = %#swcslot%;
+					break;
+				endif;
+			endif;
+		next;
+		
+		if(%#swslotitemup% == -1);
+			log("&6[Macro] &fAconteceu um erro, tente novamente!");
+			log("&6[Macro] &fSwHerbExcavation &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+			unset(swherbexcavation);
+			stop();
+		endif;
+	elseif((%#swherbalism% == 0) && (%#swexcavation% == 1));
+		log("&6[Macro] &fOk! Você ira upar &6&lESCAVAÇAO&f!");
+		#swherbexcavationestagio = 3;
+		
+		for(#swcslot,1,9);
+			if(&swmineversion == "1.5.x");
+				getslotitem(%#swcslot%,#switeminvid,#switeminvstack);
+				
+				if(%#switeminvid% == 3);
+					#swslotitemup = %#swcslot%;
+					break;
+				endif;
+			else;
+				getslotitem(%#swcslot%,&switeminvid,#switeminvstack);
+				
+				if(%&switeminvid% == "dirt");
+					#swslotitemup = %#swcslot%;
+					break;
+				endif;
+			endif;
+		next;
+		
+		if(%#swslotitemup% == -1);
+			log("&6[Macro] &fAconteceu um erro, tente novamente!");
+			log("&6[Macro] &fSwHerbExcavation &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+			unset(swherbexcavation);
+			stop();
+		endif;
+	else;
+		log("&6[Macro] &fAconteceu um erro, tente novamente!");
+		log("&6[Macro] &fSwHerbExcavation &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+		unset(swherbexcavation);
+		stop();
+	endif;
+	
+	if((%#swherbalism% == 0) && (%#swexcavation% == 1));
+		slot(%#swslotitemup%);
+		wait(40ms);
+		
+		do(3);
+			look(%&frente%);
+			look(,65);
+			wait(150ms);
+			key(use);
+			wait(400ms);
+		loop;
+		
+		wait(1);
+			
+		keydown(sneak);
+		keydown(forward);
+		
+		wait(400ms);
+		
+		keyup(forward);
+		keyup(sneak);
+	endif;
+	
+	DO;
+		if(%#swherbexcavationestagio% == 1);
+			do;
+				if((%&swusetofixitem% == "bloco") || (%&swusetofixitem% == "Bloco") || (%&swusetofixitem% == "BLOCO"));
+					slot(%#swslotpa%);
+					
+					look(0,90);
+					
+					wait(1);
+					
+					do(2);
+						key(use);
+						wait(1);
+					loop;
+				else;
+					do;
+						slot(%#swslotpa%);
+						
+						wait(300ms);
+						
+						echo(%&swcmdtofixitem%);
+						wait(3);
+					until(%DURABILITY% > 250);
+					
+					break();
+				endif;
+			loop;
+			
+			#swherbexcavationestagio = 3;
+		elseif(%#swherbexcavationestagio% == 2);
+			do(3);
+				PRESS(E);
+				wait(500ms);
+			loop;
+			
+			gui();
+			
+			if((%#swherbalism% == 0) && (%#swexcavation% == 1));
+				slot(%#swslotitemup%);
+				wait(40ms);
+				
+				do(3);
+					look(%&frente%);
+					look(,65);
+					wait(150ms);
+					key(use);
+					wait(400ms);
+				loop;
+			endif;
+		
+			wait(1);
+			
+			#swcountslotclick = 0;
+			
+			gui(INVENTORY);
+			
+			wait(300ms);
+			
+			for(#swcslot,9,35);
+				if(&swmineversion == "1.5.x");
+					getslotitem(%#swcslot%,#switeminvid2,#switeminvstack2);
+					
+					if((%#swherbalism% == 0) && (%#swexcavation% == 1));
+						if(%#switeminvid2% == 3);
+							#swcountslotclick = %#swcountslotclick% + 1;
+							SLOTCLICK(%#swcslot%,L,TRUE);
+							wait(250ms);
+							
+							if(%#swcountslotclick% == 2);
+								break();
+							endif;
+						endif;
+					elseif((%#swherbalism% == 1) && (%#swexcavation% == 0));
+						if(%#switeminvid2% == 338);
+							#swcountslotclick = %#swcountslotclick% + 1;
+							SLOTCLICK(%#swcslot%,L,TRUE);
+							wait(250ms);
+							
+							if(%#swcountslotclick% == 2);
+								break();
+							endif;
+						endif;
+					endif;
+				else;
+					getslotitem(%#swcslot%,&switeminvid2,#switeminvstack2);
+					if((%#swherbalism% == 0) && (%#swexcavation% == 1));
+						ifmatches(%&switeminvid2%,"dirt");
+							#swcountslotclick = %#swcountslotclick% + 1;
+							SLOTCLICK(%#swcslot%,L,TRUE);
+							wait(250ms);
+							
+							if(%#swcountslotclick% == 2);
+								break();
+							endif;
+						endif;
+					elseif((%#swherbalism% == 1) && (%#swexcavation% == 0));
+						if(%&switeminvid2% == "reeds");
+							#swcountslotclick = %#swcountslotclick% + 1;
+							SLOTCLICK(%#swcslot%,L,TRUE);
+							wait(250ms);
+							
+							if(%#swcountslotclick% == 2);
+								break();
+							endif;
+						endif;
+					endif;
+				endif;
+			next;
+			
+			if(%#swcountslotclick% == 0);
+				gui();
+				log("&6[Macro] &fA terra do seu inventario acabou!");
+				log("&6[Macro] &fSwHerbExcavation &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+				unset(swherbexcavation);
+				stop();
+			else;
+				log("&6[Macro] &fA sua &6&lHOTBAR &ffoi reabastecida!");
+			endif;
+			
+			gui();
+			#swherbexcavationestagio = 3;
+			wait(300ms);
+		elseif(%#swherbexcavationestagio% == 3);
+			if((%#swherbalism% == 0) && (%#swexcavation% == 1));
+				DO;
+					IFMATCHES(%GUI%,CHAT);
+						log("&6[Macro] &fAguardando Você fechar o &6&lCHAT&f!");
+						#swdontbugchat = 0;
+						
+						do;
+							ifmatches(%GUI%,NONE);
+								break;
+							endif;
+							
+							#swdontbugchat = %#swdontbugchat% + 1;
+							
+							wait(100ms);
+							
+							if(%#swdontbugchat% > 60);
+								log("&6[Macro] &fAcho que você esqueceu o &6&lCHAT &faberto, irei fechar para você!");
+								gui();
+							endif;
+						loop;
+					endif;
+					
+					if(%#swdontguarditens% == 0);
+						if(%#swcountcheckinv% > (%#swdelaycheckinv% * 10));
+							#swcountcheckinv = 0;
+							
+							gui(INVENTORY);
+							wait(100ms);
+							
+							if(&swmineversion == "1.5.x");
+								getslotitem(35,#switeminvid,#switeminvstack);
+								
+								if(%#switeminvstack% != 0);
+									#swherbexcavationestagio = 5;
+									break();
+								endif;
+							else;
+								getslotitem(35,&switeminvid,#switeminvstack);
+								
+								if(%#switeminvstack% != 0);
+									#swherbexcavationestagio = 5;
+									break();
+								endif;
+							endif;
+							
+							gui();
+						endif;
+						
+						inc(#swcountcheckinv);
+					endif;
+					
+					look(%&frente%);
+					look(,65);
+					
+					slot(%#swslotitemup%);
+					key(use);
+					
+					wait(1ms);
+					
+					slot(%#swslotpa%);
+					key(attack);
+					
+					if(%DURABILITY% < 15);
+						gui();
+						log("&6[Macro] &fNão consegui reparar sua ferramenta!");
+						log("&6[Macro] &fSwHerbExcavation &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+						unset(swherbexcavation);
+						stop();
+					endif;
+					
+					if(%DURABILITY% < 80);
+						log("&6[Macro] &fSua ferramentas está quebrando! Irei reparar-la!");
+						#swherbexcavationestagio = 1;
+						break();
+					endif;
+					
+					if(&swmineversion == "1.5.x");
+						gui();
+						getslotitem(%#swslotitemup%,#switeminvid,#switeminvstack);
+						
+						if(%#switeminvid% == 3);
+							if(%#switeminvstack% <= 12);
+								log("&6[Macro] &fA terra da sua &6&lHOTBAR &facabou!");
+								#swherbexcavationestagio = 2;
+								break();
+							endif;
+						else;
+							log("&6[Macro] &fParece que seu slot com terra está com problema, aguarde...");
+							do(20);
+								wait(1);
+								getslotitem(%#swslotitemup%,#switeminvid,#switeminvstack);
+								
+								if(%#switeminvid% == 3);
+									break();
+								endif;
+							loop;
+
+							
+							gui();
+							getslotitem(%#swslotitemup%,#switeminvid,#switeminvstack);
+							
+							if(%#switeminvid% == 3);
+								if(%#switeminvstack% <= 12);
+									log("&6[Macro] &fA terra da sua &6&lHOTBAR &facabou!");
+									#swherbexcavationestagio = 2;
+									break();
+								endif;
+							else;
+								log("&6[Macro] &fO slot com terra bugou! Aguarde que darei um jeito nisso!");
+								#swherbexcavationestagio = 4;
+								break();
+							endif;
+						endif;
+					else;
+						gui();
+						getslotitem(%#swslotitemup%,&switeminvid,#switeminvstack);
+						
+						if(%&switeminvid% == "dirt");
+							if(%#switeminvstack% <= 12);
+								log("&6[Macro] &fA terra da sua &6&lHOTBAR &facabou!");
+								#swherbexcavationestagio = 2;
+								break();
+							endif;
+						else;
+							log("&6[Macro] &fParece que seu slot com terra está com problema, aguarde...");
+							do(20);
+								wait(1);
+								getslotitem(%#swslotitemup%,&switeminvid,#switeminvstack);
+								
+								if(%&switeminvid% == "dirt");
+									break();
+								endif;
+							loop;
+
+							
+							gui();
+							getslotitem(%#swslotitemup%,&switeminvid,#switeminvstack);
+							
+							if(%&switeminvid% == "dirt");
+								if(%#switeminvstack% <= 12);
+									log("&6[Macro] &fA terra da sua &6&lHOTBAR &facabou!");
+									#swherbexcavationestagio = 2;
+									break();
+								endif;
+							else;
+								log("&6[Macro] &fO slot com terra bugou! Aguarde que darei um jeito nisso!");
+								#swherbexcavationestagio = 4;
+								break();
+							endif;
+						endif;
+					endif;
+				LOOP;
+			elseif((%#swherbalism% == 1) && (%#swexcavation% == 0));
+				DO;
+					look(%&frente%);
+					look(,90);
+					
+					slot(%#swslotitemup%);
+					key(use);
+					
+					wait(1ms);
+					
+					key(attack);
+					
+					if(&swmineversion == "1.5.x");
+						getslotitem(%#swslotitemup%,#switeminvid,#switeminvstack);
+						
+						if(%#switeminvid% == 338);
+							if(%#switeminvstack% <= 12);
+								log("&6[Macro] &fA cana da sua &6&lHOTBAR &facabou!");
+								#swherbexcavationestagio = 2;
+								break();
+							endif;
+						endif;
+					else;
+						getslotitem(%#swslotitemup%,&switeminvid,#switeminvstack);
+						
+						if(%&switeminvid% == "reeds");
+							if(%#switeminvstack% <= 12);
+								log("&6[Macro] &fA cana da sua &6&lHOTBAR &facabou!");
+								#swherbexcavationestagio = 2;
+								break();
+							endif;
+						endif;
+					endif;
+				LOOP;
+			endif;
+		elseif(%#swherbexcavationestagio% == 4);
+			#swcountslotclick = 0;
+			
+			gui(INVENTORY);
+			wait(1);
+			
+			for(#swcslot,9,35);
+				if(&swmineversion == "1.5.x");
+					getslotitem(%#swcslot%,#switeminvid,#switeminvstack);
+					
+					if((%#swherbalism% == 1) && (%#swexcavation% == 0));
+						if(%#switeminvid% == 338);
+							if(%#switeminvstack% == 64);
+								#swherbexcavationestagio = 3;
+							else;
+								#swherbexcavationestagio = 2;
+							endif;
+							
+							#swcountslotclick = 1;
+							#swslotsubup = 35 + %#swslotitemup%;
+							
+							slotclick(%#swcslot%,l,false);
+							wait(300ms);
+							slotclick(%#swslotsubup%,l,false);
+							wait(300ms);
+							slotclick(%#swcslot%,l,false);
+							wait(300ms);
+							gui();
+							log("&6[Macro] &fFoi recolocado a cana na sua &6&lHOTBAR&f!");
+							break();
+						endif;
+					elseif((%#swherbalism% == 0) && (%#swexcavation% == 1));
+						if(%#switeminvid% == 3);
+							if(%#switeminvstack% == 64);
+								#swherbexcavationestagio = 3;
+							else;
+								#swherbexcavationestagio = 2;
+							endif;
+							
+							#swcountslotclick = 1;
+							#swslotsubup = 35 + %#swslotitemup%;
+							
+							slotclick(%#swcslot%,l,false);
+							wait(300ms);
+							slotclick(%#swslotsubup%,l,false);
+							wait(300ms);
+							slotclick(%#swcslot%,l,false);
+							wait(300ms);
+							slotclick(-999,l,false);
+							wait(300ms);
+							gui();
+							log("&6[Macro] &fFoi recolocado a terra na sua &6&lHOTBAR&f!");
+							break();
+						endif;
+					endif;
+				else;
+					getslotitem(%#swcslot%,&switeminvid,#switeminvstack);
+					
+					if((%#swherbalism% == 1) && (%#swexcavation% == 0));
+						if(%&switeminvid% == "reeds");
+							if(%#switeminvstack% == 64);
+								#swherbexcavationestagio = 3;
+							else;
+								#swherbexcavationestagio = 2;
+							endif;
+							
+							#swcountslotclick = 1;
+							#swslotsubup = 35 + %#swslotitemup%;
+							
+							slotclick(%#swcslot%,l,false);
+							wait(300ms);
+							slotclick(%#swslotsubup%,l,false);
+							wait(300ms);
+							slotclick(%#swcslot%,l,false);
+							wait(300ms);
+							gui();
+							log("&6[Macro] &fFoi recolocado a cana na sua &6&lHOTBAR&f!");
+							break();
+						endif;
+					elseif((%#swherbalism% == 0) && (%#swexcavation% == 1));
+						if(%&switeminvid% == "dirt");
+							if(%#switeminvstack% == 64);
+								#swherbexcavationestagio = 3;
+							else;
+								#swherbexcavationestagio = 2;
+							endif;
+							
+							#swcountslotclick = 1;
+							#swslotsubup = 35 + %#swslotitemup%;
+							
+							slotclick(%#swcslot%,l,false);
+							wait(300ms);
+							slotclick(%#swslotsubup%,l,false);
+							wait(300ms);
+							slotclick(%#swcslot%,l,false);
+							wait(300ms);
+							slotclick(-999,l,false);
+							wait(300ms);
+							gui();
+							log("&6[Macro] &fFoi recolocado a terra na sua &6&lHOTBAR&f!");
+							break();
+						endif;
+					endif;
+				endif;
+			next;
+			
+			if(%#swcountslotclick% == 0);
+				gui();
+				
+				if((%#swherbalism% == 1) && (%#swexcavation% == 0));
+					log("&6[Macro] &fA cana do seu inventario acabou!");
+				elseif((%#swherbalism% == 0) && (%#swexcavation% == 1));
+					log("&6[Macro] &fA terra do seu inventario acabou!");
+				endif;
+				
+				log("&6[Macro] &fSwHerbExcavation &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+				unset(swherbexcavation);
+				stop();
+			endif;
+		elseif(%#swherbexcavationestagio% == 5);
+			//GUARDAR OS ITENS
+			#swtopenchest = 0;
+			#swtentativaopenchest = 0;
+			#swpermissionpasschest = 0;
+			#swdontguarditens = 0;
+			#swpassguarditem = 0;
+			
+			do;
+				do;
+					gui();
+					
+					if(%#swbau% > 12);
+						#swdontguarditens = 1;
+						break();
+					endif;
+					
+					wait(100ms);
+					
+					look(%&frente%);
+					
+					if(%#swbau% == 1);look(-110,8);endif;
+					if(%#swbau% == 2);look(-110,-50);endif;
+					if(%#swbau% == 3);look(-110,-70);endif;
+					if(%#swbau% == 4);look(-155,8);endif;
+					if(%#swbau% == 5);look(-155,-30);endif;
+					if(%#swbau% == 6);look(-155,-53);endif;
+					if(%#swbau% == 7);look(+110,8);endif;
+					if(%#swbau% == 8);look(+110,-50);endif;
+					if(%#swbau% == 9);look(+110,-70);endif;
+					if(%#swbau% == 10);look(+155,8);endif;
+					if(%#swbau% == 11);look(+155,-30);endif;
+					if(%#swbau% == 12);look(+155,-53);endif;
+					
+					wait(500ms);
+					key(use);
+					
+					do;
+						wait(200ms);
+						inc(#swtopenchest);
+					until((%GUI% == "GUICHEST") || (%#swtopenchest% > 50));
+					
+					if(%GUI% == "GUICHEST");
+						#swpassguarditem = 1;
+					endif;
+					
+					if(%#swtopenchest% > 50);
+						inc(#swtentativaopenchest);
+					endif;
+					
+					if(%#swtentativaopenchest% > 3);
+						#swdontguarditens = 1;
+						#swherbexcavationestagio = 3;
+						break();
+					endif;
+				until(%#swpassguarditem% == 1);
+				
+				if(%#swdontguarditens% == 0);
+					for(#swcslot,63,80);
+						if(&swmineversion == "1.5.x");
+							getslotitem(53,#switeminvid,#switeminvstack);
+						else;
+							getslotitem(53,&switeminvid,#switeminvstack);
+						endif;
+						
+						if(%#switeminvstack% != 0);
+							inc(#swbau);
+							gui();
+							break();
+						endif;
+						
+						slotclick(%#swcslot%,l,true);
+						wait(120ms);
+						
+						if(%#swcslot% == 80);
+							#swpermissionpasschest = 1;
+						endif;
+					next;
+				else;
+					#swpermissionpasschest = 1;
+				endif;	
+			until(%#swpermissionpasschest% == 1);
+			
+			do(4);
+				PRESS(E);
+				wait(300ms);
+			loop;
+			
+			gui();
+			#swherbexcavationestagio = 3;
+		endif;
+	LOOP;
+endif;
+}$$

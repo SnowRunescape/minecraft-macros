@@ -1,0 +1,30 @@
+$${
+if(swadvancedfish);
+	log("");
+	log("");
+	log("&6[Macro] &fSwAdvancedFish &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttps://forum.snowdev.com.br");
+	log("");
+	log("");
+	
+	unset(swarco);
+	stop();
+else;
+	&swmenu = "menu";
+	
+	do;
+	
+	if(%&swmenu% == "menu");
+		PROMPT(&menu_typefarm,"$$[[§a* Iniciar Macro,,* Pegar do Bau,* Pegar do Chao,,<- Voltar]]","");
+	endif;
+	
+	until(%&swmenu% == "* Iniciar Macro");
+	
+	set(swarco);
+	
+	do;
+	
+	loop;
+endif;
+}$$

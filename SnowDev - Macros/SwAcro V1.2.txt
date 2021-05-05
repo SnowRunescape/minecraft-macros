@@ -1,0 +1,50 @@
+$${
+//MACRO: SwAcro V1.2
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://macro.snowdev.com.br/
+
+//Digite a home que deseja upar ACROBACIA?
+&swhomeupacro = "SwAcro";
+
+
+if(swacro);
+    log("");
+    log("");
+    log("&6[Macro] &fSwAcro &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	keyup(sneak);
+	unset(swacro);
+	stop();
+else;
+	set(swacro);
+    log("");
+    log("");
+    log("&6[Macro] &fSwAcro sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttps://Macro.Snowdev.com.br");
+    log("");
+    log("");
+	
+	wait(1);
+	
+	echo(/home %swhomeupacro%);
+	wait(1500ms);
+	
+	do;
+		keydown(sneak);
+		
+		if(%HITID%!=0);
+			wait(100ms);
+			echo(/home %swhomeupacro%);
+			wait(2500ms);
+		endif;
+		
+		if(%HEALTH% < 1);
+			respawn;
+		endif;
+	loop;
+endif;
+}$$

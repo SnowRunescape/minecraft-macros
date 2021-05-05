@@ -1,0 +1,85 @@
+$${
+//MACRO: SwAnuncio V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://macro.snowdev.com.br/
+
+//Delay para Anunciar um Anuncio?
+#swanunciodelay = 45;
+
+//Deseja mandar os anuncio em SEQUENCIA ou ALEATORIO?
+&swAnuncioordem = "SEQUENCIA";
+
+//Qual comando utilizar para anunciar?
+&swcomandoparaanunciar = "/g";
+
+//Digite abaixo quais anuncios você quer
+//Caso queira mais, so copiar e colocar outro em baixo, e editar o [N] em ordem
+&swarrayanuncio[0] = "Anuncio 1";
+&swarrayanuncio[1] = "Anuncio 2";
+&swarrayanuncio[2] = "Anuncio 3";
+
+
+if(swanuncio);
+    log("");
+    log("");
+    log("&6[Macro] &fSwAnuncio &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttp://macro.snowdev.com.br");
+    log("");
+    log("");
+	unset(swanuncio);
+	stop();
+else;
+    log("");
+    log("");
+    log("&6[Macro] &fSwAnuncio sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+    log("&6[Macro] &fPara mais macros como esse acesse o site:");
+    log("&6[Macro] &fhttp://macro.snowdev.com.br");
+    log("");
+    log("");
+	
+	set(swanuncio);
+	
+	ARRAYSIZE(&swarrayanuncio,#swarrayanunciosize);
+	#swlastrandomnumber = -9999;
+	
+	wait(1);
+	
+	if((%&swanuncioordem% = "ALEATORIO") || (%&swanuncioordem% = "aleatorio") || (%&swanuncioordem% = "Aleatorio"));
+		log("&6[Macro] &fOs Anuncios serao no &6&l%&swcomandoparaanunciar% &fno modo &6&lALEATORIO&f!");
+	else;
+		log("&6[Macro] &fOs Anuncios serao no &6&l%&swcomandoparaanunciar% &fno modo em &6&lSEQUENCIA&f!");
+	endif;
+	
+	wait(1);
+	
+	DO;
+		if((%&swanuncioordem% = "ALEATORIO") || (%&swanuncioordem% = "aleatorio") || (%&swanuncioordem% = "Aleatorio"));
+			RANDOM(#swrandomnumber,%#swarrayanunciosize%,0);
+			
+			if(%#swrandomnumber% != %#swlastrandomnumber%);
+				if(%&swarrayanuncio[%#swrandomnumber%]% != "");
+					echo(%&swcomandoparaanunciar% %&swarrayanuncio[%#swrandomnumber%]%);
+					#swlastrandomnumber = %#swrandomnumber%;
+					wait(%#swanunciodelay%);
+				endif;
+			endif;
+		else;
+			if(%#swlastrandomnumber% = -9999);
+				#swlastrandomnumber = 0;
+			endif;
+			
+			if(%#swlastrandomnumber% > (%#swarrayanunciosize% - 1));
+				#swlastrandomnumber = 0;
+			endif;
+			
+			if(%&swarrayanuncio[%#swlastrandomnumber%]% != "");
+				echo(%&swcomandoparaanunciar% %&swarrayanuncio[%#swlastrandomnumber%]%);
+				wait(%#swanunciodelay%);
+			endif;
+			
+			inc(#swlastrandomnumber);
+		endif;
+	LOOP;
+endif;
+}$$

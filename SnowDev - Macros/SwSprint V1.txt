@@ -1,0 +1,31 @@
+$${
+//MACRO: SwSprint V1
+//PARA MAIS MACRO COMO ESSE, ACESSE O SITE:
+//https://Macro.Snowdev.com.br/
+
+
+if(swsprint);
+	log("");
+	log("");
+	log("&6[Macro] &fSwSprint &c&lDESLIGADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+	log("");
+	log("");
+	unset(swsprint);
+	stop();
+else;
+	set(swsprint);
+	log("");
+	log("");
+	log("&6[Macro] &fSwSprint sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttp://Macro.Snowdev.com.br");
+	log("");
+	log("");
+	
+	DO;
+		sprint();
+	LOOP;
+endif;
+}$$
