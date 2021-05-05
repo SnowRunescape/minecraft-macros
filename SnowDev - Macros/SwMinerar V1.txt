@@ -28,13 +28,13 @@ if(swminerar);
 	unset(swminerar);
 	stop();
 else;
-    log("");
-    log("");
-    log("&6[Macro] &fSwArco sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
-    log("&6[Macro] &fPara mais macros como esse acesse o site:");
-    log("&6[Macro] &fhttps://macro.snowdev.com.br");
-    log("");
-    log("");
+	log("");
+	log("");
+	log("&6[Macro] &fSwArco sendo &2&lATIVADO&f, Feito por &cSnowRunescape&f!");
+	log("&6[Macro] &fPara mais macros como esse acesse o site:");
+	log("&6[Macro] &fhttps://macro.snowdev.com.br");
+	log("");
+	log("");
 	
 	set(swminerar);
 	
@@ -72,9 +72,9 @@ else;
 			
 			wait(300ms);
 			
-            #swxinit = %HITX%;
-            #swyto = %HITY%;
-            #swzinit = %HITZ%;
+			#swxinit = %HITX%;
+			#swyto = %HITY%;
+			#swzinit = %HITZ%;
 
 			do;
 				look(+0,90);
@@ -82,7 +82,7 @@ else;
 				wait(0);
 			until((%HITX% != %#swxinit%) || (%HITY% != %#swyto%) || (%HITZ% != %#swzinit%));
 
-            walkto(%#swxinit%,%#swyto%,%#swzinit%);
+			walkto(%#swxinit%,%#swyto%,%#swzinit%);
 			
 			#swtask = 3;
 		elseif(%#swtask% == 3);
